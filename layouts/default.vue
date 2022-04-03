@@ -27,7 +27,7 @@
             </NuxtLink>
             <NuxtLink to="/projects" class="h-full flex items-center">
               <li class="hover:text-indigo-700 cursor-pointer h-full flex items-center text-sm tracking-normal mx-5">
-                Projects
+                {{ $t('projects') }}
               </li>
             </NuxtLink>
           </ul>
