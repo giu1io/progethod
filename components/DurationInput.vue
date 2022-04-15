@@ -2,6 +2,7 @@
   <div>
     <input
       v-model="inputString"
+      class="text-gray-600 dark:text-gray-400 focus:outline-none focus:border focus:border-indigo-700 dark:focus:border-indigo-700 dark:border-gray-700 dark:bg-gray-800 bg-white font-normal w-16 h-10 flex items-center pl-3 text-sm border-gray-300 rounded border shadow"
       type="text"
       maxlength="5"
       placeholder="00:00"
@@ -39,7 +40,7 @@ export default {
   methods: {
     parseUserInput () {
       if (this.inputString.length >= 3) {
-        const matches = this.inputString.match(/([0-9]{1,2}):?([0-9]{2})/)
+        const matches = this.inputString.match(/([0-9]{1,2}):?([0-5][0-9])/)
 
         if (!matches || matches.length !== 3) {
           this.internalDuration = 0

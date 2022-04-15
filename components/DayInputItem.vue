@@ -7,6 +7,9 @@
     </div>
     <time-entry-item />
     <time-entry-item />
+    <div v-for="entry in entries" :key="entry.id">
+      <time-entry-item v-model="entry.data" />
+    </div>
   </div>
 </template>
 
@@ -16,6 +19,11 @@ import TimeEntryItem from '~/components/TimeEntryItem'
 export default {
   components: {
     TimeEntryItem
+  },
+  data () {
+    return {
+      entries: []
+    }
   }
 }
 </script>
