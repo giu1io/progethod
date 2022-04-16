@@ -39,7 +39,6 @@
               <div class="relative w-full">
                 <div class="text-gray-500 absolute ml-3 inset-0 m-auto w-4 h-4">
                   <search-icon
-                    :xmlns="xmlns"
                     class="icon icon-tabler icon-tabler-search"
                     width="16"
                     height="16"
@@ -72,7 +71,6 @@
                   <li class="cursor-pointer text-gray-600 text-sm leading-3 tracking-normal py-2 hover:text-indigo-700 focus:text-indigo-700 focus:outline-none">
                     <div class="flex items-center">
                       <user-icon
-                        :xmlns="xmlns"
                         class="icon icon-tabler icon-tabler-user"
                         width="20"
                         height="20"
@@ -88,7 +86,6 @@
                   </li>
                   <li class="cursor-pointer text-gray-600 text-sm leading-3 tracking-normal mt-2 py-2 hover:text-indigo-700 focus:text-indigo-700 focus:outline-none flex items-center">
                     <help-icon
-                      :xmlns="xmlns"
                       class="icon icon-tabler icon-tabler-help"
                       width="20"
                       height="20"
@@ -103,7 +100,6 @@
                   </li>
                   <li class="cursor-pointer text-gray-600 text-sm leading-3 tracking-normal mt-2 py-2 hover:text-indigo-700 flex items-center focus:text-indigo-700 focus:outline-none">
                     <settings-icon
-                      :xmlns="xmlns"
                       class="icon icon-tabler icon-tabler-settings"
                       width="20"
                       height="20"
@@ -181,7 +177,6 @@
                 </p>
                 <div class="sm:ml-2 text-white relative">
                   <chevron-down-icon
-                    :xmlns="xmlns"
                     class="icon icon-tabler icon-tabler-chevron-down cursor-pointer"
                     width="20"
                     height="20"
@@ -198,7 +193,6 @@
             <li class="ml-2 cursor-pointer text-gray-600 text-base leading-3 tracking-normal py-2 hover:text-indigo-700 focus:text-indigo-700 focus:outline-none">
               <div class="flex items-center">
                 <user-icon
-                  :xmlns="xmlns"
                   class="icon icon-tabler icon-tabler-user"
                   width="24"
                   height="24"
@@ -217,7 +211,6 @@
           <menu-icon
             aria-haspopup="true"
             aria-label="Main Menu"
-            :xmlns="xmlns"
             class="show-m-menu icon icon-tabler icon-tabler-menu"
             width="28"
             height="28"

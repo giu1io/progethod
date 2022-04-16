@@ -96,7 +96,7 @@ export default {
   },
   data () {
     return {
-      // xmlns: 'http://www.w3.org/2000/svg',
+      xmlns: 'http://www.w3.org/2000/svg',
       xlink: 'http://www.w3.org/1999/xlink',
       profilePhoto: 'https://tuk-cdn.s3.amazonaws.com/assets/components/boxed_layout/bl_1.png'
     }
