@@ -1,6 +1,7 @@
 <template>
   <div>
     <input
+      ref="input"
       v-model="inputString"
       class="text-gray-600 dark:text-gray-400 focus:outline-none focus:border focus:border-indigo-700 dark:focus:border-indigo-700 dark:border-gray-700 dark:bg-gray-800 bg-white font-normal w-16 h-10 flex items-center pl-3 text-sm border-gray-300 rounded border shadow"
       type="text"
@@ -8,6 +9,7 @@
       placeholder="00:00"
       @input="handleUserInput"
       @blur="onBlur"
+      @keyup.enter="enterKey"
     >
   </div>
 </template>
@@ -83,6 +85,11 @@ export default {
       const hours = Math.floor(this.internalDuration / 60)
 
       this.inputString = `${pad(hours)}:${pad(minutes)}`
+    },
+    enterKey (event) {
+      if (this.inputString) {
+        this.$emit('userSubmit', event)
+      }
     }
   }
 }

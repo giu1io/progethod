@@ -1,6 +1,7 @@
 <template>
   <div class="flex">
     <tags-input
+      ref="taginput"
       v-model="selectedTags"
       class="mb-5"
       :existing-tags="projects"
@@ -13,15 +14,22 @@
       :hide-input-on-limit="true"
       :placeholder="$t('select_project')"
       @tag-added="tagAdded"
-      @tag-removed="hasUpdated"
+      @tag-removed="tagRemoved"
     />
-    <duration-input v-model="duration" @input="hasUpdated" />
+    <duration-input
+      ref="duration"
+      v-model="duration"
+      @input="hasUpdated"
+      @userSubmit="handleSubmit"
+    />
     <div class="flex-col md:mr-16">
       <input
+        ref="notes"
         v-model="notes"
         class="text-gray-600 dark:text-gray-400 focus:outline-none focus:border focus:border-indigo-700 dark:focus:border-indigo-700 dark:border-gray-700 dark:bg-gray-800 bg-white font-normal w-64 h-10 flex items-center pl-3 text-sm border-gray-300 rounded border shadow"
         placeholder="Notes"
         @input="hasUpdated"
+        @keyup.enter="handleSubmit"
       >
     </div>
   </div>
@@ -51,6 +59,9 @@ export default {
     }
   },
   computed: {
+    project () {
+      return this.selectedTags.length === 1 ? this.selectedTags[0] : null
+    },
     ...mapGetters({
       projects: 'projects/projects'
     })
@@ -65,22 +76,38 @@ export default {
       }
     }
   },
+  mounted () {
+    if (!this.value.project) {
+      this.$refs.taginput.$refs.taginput.focus()
+    }
+  },
   methods: {
     async tagAdded (project) {
       if (!project.id) {
         project = await this.addProject(project.name)
         this.selectedTags = [project]
       }
+      if (this.hasUpdated()) {
+        // focus next field
+        this.$refs.duration.$refs.input.focus()
+      }
+    },
+    tagRemoved () {
+      // refocus after tag removed
+      this.$refs.taginput.$refs.taginput.focus()
       this.hasUpdated()
     },
     hasUpdated () {
-      if (this.shouldEmitUpdate()) {
-        this.$emit('input', {
-          project: this.selectedTags[0],
-          duration: this.duration,
-          notes: this.notes
-        })
+      if (!this.shouldEmitUpdate()) {
+        return false
       }
+
+      this.$emit('input', {
+        project: this.selectedTags[0],
+        duration: this.duration,
+        notes: this.notes
+      })
+      return true
     },
     shouldEmitUpdate () {
       // only emit update if one of the input has changed
@@ -101,6 +128,15 @@ export default {
       }
 
       return false
+    },
+    handleSubmit (event) {
+      // if the selected project require notes select the notes field
+      if (this.project && this.project.requires_notes && !this.notes) {
+        this.$refs.notes.focus()
+        return
+      }
+
+      this.$emit('userSubmit', event)
     },
     ...mapActions({
       addProject: 'projects/add'

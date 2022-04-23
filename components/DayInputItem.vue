@@ -9,7 +9,11 @@
     </div>
     <div v-for="entry in entries" :key="entry.id">
       <div class="flex">
-        <time-entry-item :value="entry.data" @input="handleUpdateEvent(entry.id, $event)" />
+        <time-entry-item
+          :value="entry.data"
+          @input="handleUpdateEvent(entry.id, $event)"
+          @userSubmit="handleSubmit"
+        />
         <a
           class="text-red-500 p-2 border-transparent border bg-gray-100 dark:bg-gray-700 dark:hover:bg-gray-600 hover:bg-gray-200 cursor-pointer rounded focus:outline-none focus:border-gray-800 focus:shadow-outline-gray"
           @click="removeEntry(entry.id)"
@@ -79,6 +83,9 @@ export default {
     },
     handleUpdateEvent (id, data) {
       this.updateEntry({ id, data })
+    },
+    handleSubmit () {
+      this.addEntry()
     },
     ...mapActions({
       addEntryForDay: 'entries/add'
