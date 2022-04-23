@@ -37,7 +37,8 @@ export default {
     // https://go.nuxtjs.dev/eslint
     '@nuxtjs/eslint-module',
     // https://go.nuxtjs.dev/tailwindcss
-    '@nuxtjs/tailwindcss'
+    '@nuxtjs/tailwindcss',
+    '@nuxtjs/date-fns'
   ],
 
   // Modules: https://go.nuxtjs.dev/config-modules
@@ -75,5 +76,15 @@ export default {
     vueI18n: {
       fallbackLocale: 'it'
     }
+  },
+  dateFns: {
+    locales: [
+      'it'
+    ],
+    defaultLocale: 'it',
+    fallbackLocale: 'it',
+    methods: [
+      'format', 'addDays', 'startOfWeek'
+    ]
   }
 }

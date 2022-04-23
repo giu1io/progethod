@@ -26,6 +26,6 @@ export const mutations = {
     state.projects.push(project)
   },
   remove (state, id) {
-    state.list.splice(state.list.findIndex(p => p.id === id), 1)
+    state.projects.splice(state.projects.findIndex(p => p.id === id), 1)
   }
 }

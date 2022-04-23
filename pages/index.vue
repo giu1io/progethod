@@ -76,9 +76,9 @@
     <div class="container mx-auto px-6">
       <!-- Remove class [ h-64 ] when adding a card block -->
       <!-- Remove class [ border-dashed border-2 border-gray-300 ] to remove dotted border -->
-      <div class="w-full h-64 rounded border-dashed border-2 border-gray-300">
+      <div v-for="day of days" :key="day.toString()" class="w-full h-64 rounded border-dashed border-2 border-gray-300">
         <!-- Place your content here -->
-        <day-input-item />
+        <day-input-item :day="day" />
       </div>
     </div>
   </div>
@@ -94,8 +94,15 @@ export default {
     PaperclipIcon,
     DayInputItem
   },
-  data () {
+  data ({ $dateFns }) {
+    const days = []
+
+    for (let i = 0; i < 7; i++) {
+      days.push($dateFns.addDays($dateFns.startOfWeek(new Date(), { weekStartsOn: 1 }), i))
+    }
+
     return {
+      days,
       xmlns: 'http://www.w3.org/2000/svg',
       xlink: 'http://www.w3.org/1999/xlink',
       profilePhoto: 'https://tuk-cdn.s3.amazonaws.com/assets/components/boxed_layout/bl_1.png'
