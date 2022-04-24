@@ -86,5 +86,9 @@ export default {
     methods: [
       'format', 'addDays', 'startOfWeek'
     ]
+  },
+  env: {
+    apiBaseUrl: process.env.API_URL,
+    feUrl: process.env.FE_URL
   }
 }

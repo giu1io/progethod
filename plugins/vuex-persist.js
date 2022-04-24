@@ -6,7 +6,8 @@ export default ({ store }) => {
     storage: window.localStorage,
     modules: [
       'entries',
-      'projects'
+      'projects',
+      'user'
     ]
   }).plugin(store)
 }

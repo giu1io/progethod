@@ -113,9 +113,9 @@
                     <span class="ml-2">Account Settings</span>
                   </li>
                 </ul>
-                <img class="rounded h-10 w-10 object-cover" :src="profilePhoto" alt="logo">
+                <img class="rounded h-10 w-10 object-cover" :src="userInfo.pic" alt="logo">
                 <p class="text-gray-800 text-sm ml-2">
-                  Jane Doe
+                  {{ `${userInfo.name} ${userInfo.surname}` }}
                 </p>
               </div>
             </div>
@@ -170,7 +170,7 @@
             <li class="ml-2 cursor-pointer text-gray-600 text-sm leading-3 tracking-normal mt-2 py-2 hover:text-indigo-700 flex items-center focus:text-indigo-700 focus:outline-none">
               <div class="flex items-center">
                 <div class="w-12 cursor-pointer flex text-sm border-2 border-transparent rounded focus:outline-none focus:border-white transition duration-150 ease-in-out">
-                  <img class="rounded h-10 w-10 object-cover" :src="profilePhoto" alt="logo">
+                  <img class="rounded h-10 w-10 object-cover" :src="userInfo.pic" alt="logo">
                 </div>
                 <p class="leading-6 text-base ml-1 cursor-pointer">
                   Jane Doe
@@ -249,6 +249,7 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
 import {
   BellIcon,
   ChevronDownIcon,
@@ -275,6 +276,11 @@ export default {
       xlink: 'http://www.w3.org/1999/xlink',
       profilePhoto: 'https://tuk-cdn.s3.amazonaws.com/assets/components/boxed_layout/bl_1.png'
     }
+  },
+  computed: {
+    ...mapGetters({
+      userInfo: 'user/info'
+    })
   },
   methods: {
     dropdownHandler (event) {
