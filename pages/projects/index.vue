@@ -252,7 +252,10 @@
                   @focusout="dismissDropdown(project)"
                 >
                   <ul class="bg-white dark:bg-gray-800 shadow rounded py-1">
-                    <li class="cursor-pointer text-gray-600 dark:text-gray-400 text-sm leading-3 tracking-normal py-3 hover:bg-indigo-700 hover:text-white px-3 font-normal">
+                    <li
+                      class="cursor-pointer text-gray-600 dark:text-gray-400 text-sm leading-3 tracking-normal py-3 hover:bg-indigo-700 hover:text-white px-3 font-normal"
+                      @click="edit(project.id)"
+                    >
                       Edit
                     </li>
                     <li class="cursor-pointer text-gray-600 dark:text-gray-400 text-sm leading-3 tracking-normal py-3 hover:bg-indigo-700 hover:text-white px-3 font-normal">
@@ -336,6 +339,9 @@ export default {
     }
   },
   methods: {
+    edit (id) {
+      this.$router.push(this.localeLocation({ name: 'projects-id', params: { id } }))
+    },
     dismissDropdown (project) {
       this.$set(this.showDropDown, project.id, false)
     },

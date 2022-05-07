@@ -4,6 +4,7 @@
   "select_project": "Scegli Progetto",
   "error": "Errore",
   "warning": "Attenzione",
+  "project_information": "Informazioni Progetto",
   "errors": {
     "total_not_adjustable": "Il totale delle ore non è divisibile per 60",
     "error_during_adjustment": "Si è verificato un prolema nella conversione. Fai uno screenshot di questo giorno e segnala il problema."

@@ -29,6 +29,10 @@ export default {
     { src: '~/plugins/vuex-persist', ssr: false }
   ],
 
+  router: {
+    middleware: ['updateApi']
+  },
+
   // Auto import components: https://go.nuxtjs.dev/config-components
   components: true,
 
