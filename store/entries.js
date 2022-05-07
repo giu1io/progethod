@@ -1,4 +1,5 @@
 import { v4 as uuid } from 'uuid'
+import { durationRequiresAdjustment, getDecimalDuration } from '~/utils/duration'
 
 export const state = () => ({
   entries: []
@@ -22,12 +23,27 @@ export const actions = {
   }
 }
 
+function resetEntryDurations (data) {
+  data.decimal_duration = getDecimalDuration(data.duration)
+  data.requires_adjustment = durationRequiresAdjustment(data.duration)
+  data.adjusted = false
+  return data
+}
+
 export const mutations = {
   add (state, entry) {
-    state.entries.push(entry)
+    state.entries.push(resetEntryDurations(entry))
   },
   update (state, { data, id }) {
-    state.entries.find(p => p.id === id).data = data
+    state.entries.find(p => p.id === id).data = resetEntryDurations(data)
+  },
+  adjust (state, { adjustment, id }) {
+    const entry = state.entries.find(p => p.id === id)
+    entry.data.decimal_duration = (entry.data.decimal_duration * 10 + adjustment * 10) / 10
+    entry.data.adjusted = true
+  },
+  resetAdjustment (state, id) {
+    resetEntryDurations(state.entries.find(p => p.id === id).data)
   },
   remove (state, id) {
     state.entries.splice(state.entries.findIndex(p => p.id === id), 1)

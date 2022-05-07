@@ -84,7 +84,7 @@ export default {
     defaultLocale: 'it',
     fallbackLocale: 'it',
     methods: [
-      'format', 'addDays', 'startOfWeek'
+      'format', 'addDays', 'startOfWeek', 'intervalToDuration'
     ]
   },
   env: {

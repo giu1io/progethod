@@ -32,6 +32,20 @@
         @keyup.enter="handleSubmit"
       >
     </div>
+    <div class="flex-col md:mr-4">
+      <input
+        :value="value.decimal_duration"
+        class="text-gray-600 disabled dark:text-gray-400 focus:outline-none focus:border focus:border-indigo-700 dark:focus:border-indigo-700 dark:border-gray-700 dark:bg-gray-800 bg-white font-normal w-64 h-10 flex items-center pl-3 text-sm border-gray-300 rounded border shadow"
+        disabled
+      >
+    </div>
+    <div class="flex-col md:mr-4">
+      <input
+        type="checkbox"
+        :checked="value.requires_adjustment"
+        disabled
+      >
+    </div>
   </div>
 </template>
 
