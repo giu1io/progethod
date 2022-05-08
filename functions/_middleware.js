@@ -4,9 +4,9 @@ import { JSONResponse } from './utils/response'
 function addCorsHeaders (response, env) {
   const cors = getCorsHeaders(env)
 
-  Object.keys(cors).forEach((k) => {
+  /* Object.keys(cors).forEach((k) => {
     response.headers.set(k, cors[k])
-  })
+  }) */
 
   return response
 }
