@@ -318,6 +318,7 @@ export default {
     PlusIcon,
     DotsVerticalIcon
   },
+  middleware: 'auth',
   data () {
     return {
       temp: 0,

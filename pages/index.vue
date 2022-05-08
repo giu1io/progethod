@@ -94,6 +94,7 @@ export default {
     PaperclipIcon,
     DayInputItem
   },
+  middleware: 'auth',
   data ({ $dateFns }) {
     const days = []
 

@@ -63,6 +63,7 @@ export default {
     InfoCircleIcon,
     vSelect
   },
+  middleware: 'auth',
   asyncData ({ store, params: { id }, error }) {
     const cp = store.getters['projects/projects'].find(p => p.id === id)
 
