@@ -33,7 +33,9 @@ const corsHeaders = async ({ next, env }) => {
 
 const auth = ({ next, request, env, data }) => {
   data.authToken = request.headers.get('x-sf-sess-id')
-  if (data.authToken) {
+
+  // require auth token only for /api
+  if (data.authToken || !new URL(request.url).pathname.match(/^\/api/)) {
     return next()
   }
 
@@ -41,7 +43,7 @@ const auth = ({ next, request, env, data }) => {
     code: 401,
     status: 'Unauthorized',
     message: 'Missing Auth Token'
-  }), env)
+  }, { status: 401 }), env)
 }
 
 export const onRequest = [auth, errorHandler, corsHeaders]

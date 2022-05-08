@@ -9,7 +9,7 @@
 import bookmarkletCode from '~/utils/login.bookmarklet'
 
 export default {
-  async asyncData ({ $axios, store, query }) {
+  async asyncData ({ $axios, store, query, redirect }) {
     const pageData = {
       bookmarkletCode
     }
@@ -27,7 +27,7 @@ export default {
     store.commit('user/setToken', query.token)
     store.commit('user/updateInfo', data)
 
-    return pageData
+    return redirect('/')
   }
 }
 </script>
