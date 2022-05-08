@@ -1,4 +1,4 @@
-export default function ({ $axios, redirect, store }) {
+export default function ({ $axios, store }) {
   $axios.onRequest((config) => {
     if (!config.headers['x-sf-sess-id']) {
       config.headers['x-sf-sess-id'] = store.getters['user/authToken']
