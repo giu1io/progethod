@@ -1,6 +1,7 @@
 export const state = () => ({
   projects: [],
-  isUpdating: false
+  isUpdating: false,
+  lastUpdatedAt: new Date(0).toISOString()
 })
 
 export const getters = {
@@ -9,6 +10,9 @@ export const getters = {
   },
   isUpdating (state) {
     return state.isUpdating
+  },
+  lastUpdatedAt (state) {
+    return state.lastUpdatedAt
   }
 }
 
@@ -24,6 +28,7 @@ export const mutations = {
   },
   replace (state, projects) {
     state.projects = projects
+    state.lastUpdatedAt = new Date().toISOString()
   },
   reset (state) {
     state.projects = []

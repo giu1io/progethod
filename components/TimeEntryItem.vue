@@ -145,7 +145,7 @@ export default {
     },
     handleSubmit (event) {
       // if the selected project require notes select the notes field
-      if (this.project && this.project.requires_notes && !this.notes) {
+      if (this.project && this.project.requiresNotes && !this.notes) {
         this.$refs.notes.focus()
         return
       }

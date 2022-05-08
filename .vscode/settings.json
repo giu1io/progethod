@@ -4,6 +4,7 @@
         "Nuxt",
         "Progethod",
         "Timesheet",
-        "Voerro"
+        "Voerro",
+        "Vuex"
     ]
 }

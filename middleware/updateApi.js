@@ -1,22 +1,36 @@
-import { response } from '~/stub/serviceResponse'
+import { format, isSameDay, parseISO } from 'date-fns'
 
-function updateApiData (store) {
-  store.commit('api_data/updateStarted')
+async function updateApiData ($axios, store) {
+  store.commit('apiData/updateStarted')
 
-  // ....
-  const projects = response.data.projects.map(({ project, areas }) => ({
-    id: project.id,
-    name: project.name,
-    is_automatic: project.project_type.is_timesheet_automatic,
-    areas: areas.map(({ id, name }) => ({ id, name }))
-  }))
+  try {
+    const { data } = await $axios.$get('timetrackingboard', {
+      params: {
+        date: format(new Date(), 'yyyy-MM-dd')
+      }
+    })
+    const projects = data.projects.map(({ project, areas }) => ({
+      id: project.id,
+      name: project.name,
+      isAutomatic: project.project_type.is_timesheet_automatic,
+      areas: areas.map(({ id, name }) => ({ id, name }))
+    }))
 
-  store.commit('api_data/replace', projects)
-  store.commit('api_data/updateEnded')
+    store.commit('apiData/replace', projects)
+  } catch (error) {
+    console.error(error)
+  }
+
+  store.commit('apiData/updateEnded')
 }
 
-export default function ({ store }) {
-  if (!store.getters['api_data/isUpdating']) {
-    updateApiData(store)
+export default function ({ $axios, store }) {
+  const lastUpdate = parseISO(store.getters['apiData/lastUpdatedAt'])
+
+  if (
+    !store.getters['apiData/isUpdating'] &&
+    !isSameDay(lastUpdate, new Date()) &&
+    store.getters['user/canMakeRequests']) {
+    updateApiData($axios, store)
   }
 }

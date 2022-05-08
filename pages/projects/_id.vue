@@ -72,7 +72,7 @@ export default {
 
     let linkedProject, linkedArea
     if (cp.linkedProjectId) {
-      linkedProject = store.getters['api_data/projects'].find(p => p.id === cp.linkedProjectId)
+      linkedProject = store.getters['apiData/projects'].find(p => p.id === cp.linkedProjectId)
     }
 
     if (linkedProject && cp.linkedAreaId) {
@@ -82,14 +82,14 @@ export default {
     return {
       id,
       name: cp.name,
-      requires_notes: cp.requires_notes,
+      requiresNotes: cp.requiresNotes,
       linkedProject,
       linkedArea
     }
   },
   computed: {
     ...mapGetters({
-      projects: 'api_data/projects'
+      projects: 'apiData/projects'
     })
   },
   methods: {
@@ -97,7 +97,7 @@ export default {
       this.updateProject({
         id: this.id,
         name: this.name,
-        requires_notes: this.requires_notes,
+        requiresNotes: this.requiresNotes,
         linkedProjectId: this.linkedProject?.id,
         linkedAreaId: this.linkedArea?.id
       })
