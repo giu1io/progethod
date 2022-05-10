@@ -1,5 +1,13 @@
 <template>
-  <div class="flex">
+  <div class="flex justify-center items-center">
+    <div class="warning-container w-8 h-8 flex justify-center items-center">
+      <NuxtLink
+        v-if="project && !isProjectLinked"
+        :to="localeLocation({ name: 'projects-id', params: { id: project.id } })"
+      >
+        <alert-triangle-icon class="text-yellow-500" />
+      </NuxtLink>
+    </div>
     <tags-input
       ref="taginput"
       v-model="selectedTags"
@@ -52,12 +60,14 @@
 <script>
 import { mapActions, mapGetters } from 'vuex'
 import VoerroTagsInput from '@voerro/vue-tagsinput'
+import { AlertTriangleIcon } from 'vue-tabler-icons'
 import DurationInput from './DurationInput'
 
 export default {
   components: {
     DurationInput,
-    TagsInput: VoerroTagsInput
+    TagsInput: VoerroTagsInput,
+    AlertTriangleIcon
   },
   props: {
     value: {
@@ -75,6 +85,9 @@ export default {
   computed: {
     project () {
       return this.selectedTags.length === 1 ? this.selectedTags[0] : null
+    },
+    isProjectLinked () {
+      return this.project && this.project.linkedProjectId
     },
     ...mapGetters({
       projects: 'projects/projects'
