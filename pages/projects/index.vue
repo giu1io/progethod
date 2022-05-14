@@ -305,7 +305,6 @@ import {
 } from 'vue-tabler-icons'
 
 export default {
-  name: 'CompactTableWithActionsAndSelect',
   components: {
     EditIcon,
     SettingsIcon,

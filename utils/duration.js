@@ -13,3 +13,11 @@ export function getPrintableDuration (duration) {
     ? intervalToDuration({ start: 0, end: duration * 60 * 1000 })
     : { hours: 0, minutes: 0 }
 }
+
+export function minutesToHHmm (duration) {
+  const pad = n => n.toString().padStart(2, '0')
+  const minutes = duration % 60
+  const hours = Math.floor(duration / 60)
+
+  return `${pad(hours)}:${pad(minutes)}`
+}

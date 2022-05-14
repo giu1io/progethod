@@ -146,7 +146,7 @@ export default {
       let totalAdjustmentsRequired = ((totalDuration / 60) * 10 - (provisionalDecimalDuration * 10)) / 10
       const adjustableEntries = this.entries
         .filter(e => e.data.requires_adjustment)
-        .sort((a, b) => a.data.duration > b.data.duration ? 1 : -1)
+        .sort((a, b) => a.data.duration < b.data.duration ? 1 : -1)
 
       const adjustment = 0.1
 

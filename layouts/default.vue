@@ -304,3 +304,11 @@ export default {
   }
 }
 </script>
+
+<style lang="postcss">
+  .navbar > .nuxt-link-exact-active {
+      @apply border-b-2;
+      @apply border-indigo-700;
+      @apply text-indigo-700;
+  }
+</style>

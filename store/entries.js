@@ -1,5 +1,6 @@
-import { v4 as uuid } from 'uuid'
+import ShortUniqueId from 'short-unique-id'
 import { durationRequiresAdjustment, getDecimalDuration } from '~/utils/duration'
+const uid = new ShortUniqueId({ length: 10 })
 
 export const state = () => ({
   entries: []
@@ -15,7 +16,7 @@ export const actions = {
   add (ctx, { day, data }) {
     const entry = {
       data,
-      id: uuid(),
+      id: uid(),
       day
     }
     ctx.commit('add', entry)
@@ -31,8 +32,12 @@ function resetEntryDurations (data) {
 }
 
 export const mutations = {
-  add (state, entry) {
-    state.entries.push(resetEntryDurations(entry))
+  add (state, { day, id, data }) {
+    state.entries.push({
+      day,
+      id,
+      data: resetEntryDurations(data)
+    })
   },
   update (state, { data, id }) {
     state.entries.find(p => p.id === id).data = resetEntryDurations(data)

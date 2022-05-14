@@ -5,7 +5,7 @@
     <div class="my-6 lg:my-12 container px-6 mx-auto flex flex-col lg:flex-row items-start lg:items-center justify-between pb-4 border-b border-gray-300">
       <div>
         <h4 class="text-2xl font-bold leading-tight text-gray-800">
-          User Profile
+          {{ $t('my_week') }}
         </h4>
         <ul class="flex flex-col md:flex-row items-start md:items-center text-gray-600 text-sm mt-3">
           <li class="flex items-center mr-3 mt-3 md:mt-0">
@@ -67,8 +67,11 @@
         <button class="mx-2 my-2 bg-white transition duration-150 ease-in-out focus:outline-none hover:bg-gray-100 rounded text-indigo-700 px-6 py-2 text-sm">
           Back
         </button>
-        <button class="transition duration-150 ease-in-out hover:bg-indigo-600 focus:outline-none border bg-indigo-700 rounded text-white px-8 py-2 text-sm">
-          Edit Profile
+        <button
+          class="transition duration-150 ease-in-out hover:bg-indigo-600 focus:outline-none border bg-indigo-700 rounded text-white px-8 py-2 text-sm"
+          @click="submit()"
+        >
+          {{ $t('submit_timesheet') }}
         </button>
       </div>
     </div>
@@ -76,66 +79,65 @@
     <div class="container mx-auto px-6">
       <!-- Remove class [ h-64 ] when adding a card block -->
       <!-- Remove class [ border-dashed border-2 border-gray-300 ] to remove dotted border -->
-      <div v-for="day of days" :key="day.toString()" class="w-full rounded border-dashed border-2 border-gray-300">
+      <div v-for="day of days" :key="day.toString()" class="w-full rounded border-dashed border-2 border-gray-300 mb-10">
         <!-- Place your content here -->
         <day-input-item :day="day" />
       </div>
     </div>
+    <submit-timesheet-modal v-model="modal" :timesheet-data="timesheetData" />
   </div>
 </template>
 
 <script>
 import { PaperclipIcon } from 'vue-tabler-icons'
 import DayInputItem from '~/components/DayInputItem'
+import SubmitTimesheetModal from '~/components/SubmitTimesheetModal'
+import { prepareForSubmission } from '~/utils/timesheetMapper'
 
 export default {
-  name: 'LightWithGreyBackground',
   components: {
     PaperclipIcon,
-    DayInputItem
+    DayInputItem,
+    SubmitTimesheetModal
   },
   middleware: 'auth',
   data ({ $dateFns }) {
     const days = []
 
     for (let i = 0; i < 7; i++) {
+      // days.push($dateFns.addDays($dateFns.startOfWeek($dateFns.addDays(new Date(), 7), { weekStartsOn: 1 }), i))
       days.push($dateFns.addDays($dateFns.startOfWeek(new Date(), { weekStartsOn: 1 }), i))
     }
 
     return {
       days,
       xmlns: 'http://www.w3.org/2000/svg',
-      xlink: 'http://www.w3.org/1999/xlink',
-      profilePhoto: 'https://tuk-cdn.s3.amazonaws.com/assets/components/boxed_layout/bl_1.png'
+      modal: false,
+      timesheetData: null
     }
   },
   methods: {
-    dropdownHandler (event) {
-      const single = event.currentTarget.getElementsByTagName('ul')[0]
-      single.classList.toggle('hidden')
-    },
-    MenuHandler (el, val) {
-      const MainList = el.currentTarget.parentElement.getElementsByTagName('ul')[0]
-      const closeIcon = el.currentTarget.parentElement.getElementsByClassName('close-m-menu')[0]
-      const showIcon = el.currentTarget.parentElement.getElementsByClassName('show-m-menu')[0]
-      if (val) {
-        MainList.classList.remove('hidden')
-        el.currentTarget.classList.add('hidden')
-        closeIcon.classList.remove('hidden')
-      } else {
-        showIcon.classList.remove('hidden')
-        MainList.classList.add('hidden')
-        el.currentTarget.classList.add('hidden')
-      }
+    submit () {
+      this.modal = true
+
+      const dayEntries = this.days.map((day) => {
+        const dayStr = this.$dateFns.format(day, 'yyyy-MM-dd')
+        return {
+          day: dayStr,
+          entries: this.$store.getters['entries/entries']
+            .filter(e => e.day === dayStr)
+        }
+      })
+
+      const userProjects = this.$store.getters['projects/projects']
+      const employeeId = this.$store.getters['user/info'].employee_id
+
+      this.timesheetData = prepareForSubmission(dayEntries, userProjects, employeeId)
     }
   }
 }
 </script>
 
 <style lang="postcss">
-  .navbar > .nuxt-link-exact-active {
-      @apply border-b-2;
-      @apply border-indigo-700;
-      @apply text-indigo-700;
-  }
+
 </style>

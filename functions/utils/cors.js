@@ -1,6 +1,6 @@
 export function getCorsHeaders (env) {
   const baseCors = {
-    'Access-Control-Allow-Headers': 'x-sf-sess-id'
+    'Access-Control-Allow-Headers': 'Content-Type, x-sf-sess-id'
   }
 
   if (env.NODE_ENV !== 'development') {

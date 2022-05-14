@@ -27,7 +27,7 @@ const errorHandler = async ({ next, env, request }) => {
       code: 500,
       status: 'Error',
       message: err.message
-    }, { status: 500 }), env, request)
+    }, { status: 500, headers: getCorsHeaders(env) }), env, request)
   }
 }
 
@@ -51,7 +51,17 @@ const auth = ({ next, request, env, data }) => {
     code: 401,
     status: 'Unauthorized',
     message: 'Missing Auth Token'
-  }, { status: 401 }), env, request)
+  }, { status: 401, headers: getCorsHeaders(env) }), env, request)
 }
 
-export const onRequest = [auth, errorHandler, corsHeaders]
+const options = ({ next, request, env }) => {
+  if (request.method === 'OPTIONS') {
+    return new Response(null, {
+      headers: getCorsHeaders(env)
+    })
+  }
+
+  return next()
+}
+
+export const onRequest = [options, auth, errorHandler, corsHeaders]

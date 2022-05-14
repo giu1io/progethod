@@ -1,4 +1,4 @@
-export async function baseRequest (endpoint, queryParams, authToken, env) {
+export async function baseRequest (method, endpoint, queryParams, requestBody, authToken, env) {
   const myHeaders = new Headers()
   myHeaders.append('authority', env.PROXY_API_URL)
   myHeaders.append('accept', 'application/json, text/javascript, */*; q=0.01')
@@ -10,9 +10,14 @@ export async function baseRequest (endpoint, queryParams, authToken, env) {
   myHeaders.append('user-agent', 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/100.0.4896.127 Safari/537.36')
 
   const requestOptions = {
-    method: 'GET',
+    method,
     headers: myHeaders,
     redirect: 'follow'
+  }
+
+  if (requestBody) {
+    myHeaders.append('Content-Type', 'application/json')
+    requestOptions.body = JSON.stringify(requestBody)
   }
 
   const requestUrl = new URL(`https://${env.PROXY_API_URL}/${endpoint}`)
@@ -40,4 +45,12 @@ export async function baseRequest (endpoint, queryParams, authToken, env) {
     body,
     status
   }
+}
+
+export function getRequest (endpoint, queryParams, authToken, env) {
+  return baseRequest('GET', endpoint, queryParams, null, authToken, env)
+}
+
+export function postRequest (endpoint, body, authToken, env) {
+  return baseRequest('POST', endpoint, null, body, authToken, env)
 }

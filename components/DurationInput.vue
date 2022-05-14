@@ -15,6 +15,8 @@
 </template>
 
 <script>
+import { minutesToHHmm } from '~/utils/duration'
+
 export default {
   props: {
     value: {
@@ -80,11 +82,7 @@ export default {
         return
       }
 
-      const pad = n => n.toString().padStart(2, '0')
-      const minutes = this.internalDuration % 60
-      const hours = Math.floor(this.internalDuration / 60)
-
-      this.inputString = `${pad(hours)}:${pad(minutes)}`
+      this.inputString = minutesToHHmm(this.internalDuration)
     },
     enterKey (event) {
       if (this.inputString) {
