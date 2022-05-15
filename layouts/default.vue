@@ -21,12 +21,12 @@
 
           <ul class="pr-12 xl:flex items-center h-full hidden navbar">
             <NuxtLink to="/" class="h-full flex items-center">
-              <li class="hover:text-indigo-700 cursor-pointer h-full flex items-center text-sm tracking-normal mx-5">
-                Timesheet
+              <li class="hover:text-indigo-700 cursor-pointer h-full flex items-center text-sm tracking-normal mx-5 capitalize">
+                {{ $t('timesheet') }}
               </li>
             </NuxtLink>
             <NuxtLink to="/projects" class="h-full flex items-center">
-              <li class="hover:text-indigo-700 cursor-pointer h-full flex items-center text-sm tracking-normal mx-5">
+              <li class="hover:text-indigo-700 cursor-pointer h-full flex items-center text-sm tracking-normal mx-5 capitalize">
                 {{ $t('projects') }}
               </li>
             </NuxtLink>
@@ -55,15 +55,25 @@
             </div>
             <div class="w-full h-full flex">
               <div class="w-32 h-full flex items-center justify-center border-r cursor-pointer text-gray-600">
-                <bell-icon
+                <loader-icon
+                  v-if="isUpdating"
                   width="28"
                   height="28"
-                  viewBox="0 0 24 24"
+                  class="animate-spin"
+                />
+                <circle-check-icon
+                  v-if="!isUpdating && !isTokenExpired"
+                  width="28"
+                  height="28"
+                  class="text-green-500"
                   stroke-width="1.5"
-                  stroke="currentColor"
-                  fill="none"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
+                />
+                <circle-x-icon
+                  v-if="!isUpdating && isTokenExpired"
+                  width="28"
+                  height="28"
+                  class="text-red-500"
+                  stroke-width="1.5"
                 />
               </div>
               <div aria-haspopup="true" class="cursor-pointer w-full flex items-center justify-end relative" @click="dropdownHandler($event)">
@@ -124,46 +134,20 @@
 
         <div class="visible xl:hidden flex items-center">
           <ul class="z-40 p-2 border-r bg-white absolute rounded top-0 left-0 right-0 shadow mt-16 md:mt-16 hidden">
-            <li class="flex xl:hidden cursor-pointer text-gray-600 text-base leading-3 tracking-normal mt-2 py-3 hover:text-indigo-700 focus:text-indigo-700 focus:outline-none">
-              <div class="flex items-center">
-                <span class="leading-6 ml-2 font-bold"> Dashboard </span>
-              </div>
-            </li>
-            <li class="xl:hidden flex-col cursor-pointer text-gray-600 text-base leading-3 tracking-normal py-3 hover:text-indigo-700 focus:text-indigo-700 focus:outline-none flex justify-center" @click="dropdownHandler($event)">
-              <div class="flex items-center">
-                <span class="leading-6 ml-2 font-bold"> Products </span>
-              </div>
-              <ul class="ml-2 mt-3 hidden">
-                <li class="cursor-pointer text-gray-600 text-sm leading-3 tracking-normal py-3 hover:bg-indigo-700 hover:text-white px-3 font-normal">
-                  Landing Pages
-                </li>
-                <li class="cursor-pointer text-gray-600 text-sm leading-3 tracking-normal py-3 hover:bg-indigo-700 hover:text-white px-3 font-normal">
-                  Templates
-                </li>
-                <li class="cursor-pointer text-gray-600 text-sm leading-3 tracking-normal py-3 hover:bg-indigo-700 hover:text-white px-3 font-normal">
-                  Components
-                </li>
-              </ul>
-            </li>
-            <li class="xl:hidden cursor-pointer text-gray-600 text-base leading-3 tracking-normal py-3 hover:text-indigo-700 flex items-center focus:text-indigo-700 focus:outline-none">
-              <span class="leading-6 ml-2 font-bold">Performance</span>
-            </li>
-            <li class="xl:hidden flex-col cursor-pointer text-gray-600 text-base leading-3 tracking-normal mb-2 py-3 hover:text-indigo-700 focus:text-indigo-700 focus:outline-none flex justify-center" @click="dropdownHandler($event)">
-              <div class="flex items-center">
-                <span class="leading-6 ml-2 font-bold"> Deliverables </span>
-              </div>
-              <ul class="ml-2 mt-3 hidden">
-                <li class="cursor-pointer text-gray-600 text-sm leading-3 tracking-normal py-3 hover:bg-indigo-700 hover:text-white px-3 font-normal">
-                  Landing Pages
-                </li>
-                <li class="cursor-pointer text-gray-600 text-sm leading-3 tracking-normal py-3 hover:bg-indigo-700 hover:text-white px-3 font-normal">
-                  Templates
-                </li>
-                <li class="cursor-pointer text-gray-600 text-sm leading-3 tracking-normal py-3 hover:bg-indigo-700 hover:text-white px-3 font-normal">
-                  Components
-                </li>
-              </ul>
-            </li>
+            <NuxtLink to="/" class="h-full flex items-center">
+              <li class="flex xl:hidden cursor-pointer text-gray-600 text-base leading-3 tracking-normal mt-2 py-3 hover:text-indigo-700 focus:text-indigo-700 focus:outline-none capitalize">
+                <div class="flex items-center">
+                  <span class="leading-6 ml-2 font-bold"> {{ $t('timesheet') }} </span>
+                </div>
+              </li>
+            </NuxtLink>
+            <NuxtLink to="/projects" class="h-full flex items-center">
+              <li class="flex xl:hidden cursor-pointer text-gray-600 text-base leading-3 tracking-normal mt-2 py-3 hover:text-indigo-700 focus:text-indigo-700 focus:outline-none capitalize">
+                <div class="flex items-center">
+                  <span class="leading-6 ml-2 font-bold"> {{ $t('projects') }} </span>
+                </div>
+              </li>
+            </NuxtLink>
             <li>
               <hr class="border-b border-gray-300 w-full">
             </li>
@@ -173,7 +157,7 @@
                   <img class="rounded h-10 w-10 object-cover" :src="userInfo.pic" alt="logo">
                 </div>
                 <p class="leading-6 text-base ml-1 cursor-pointer">
-                  Jane Doe
+                  {{ `${userInfo.name} ${userInfo.surname}` }}
                 </p>
                 <div class="sm:ml-2 text-white relative">
                   <chevron-down-icon
@@ -251,9 +235,11 @@
 <script>
 import { mapGetters } from 'vuex'
 import {
-  BellIcon,
   ChevronDownIcon,
+  CircleCheckIcon,
+  CircleXIcon,
   HelpIcon,
+  LoaderIcon,
   MenuIcon,
   SearchIcon,
   SettingsIcon,
@@ -262,9 +248,11 @@ import {
 
 export default {
   components: {
-    BellIcon,
     ChevronDownIcon,
+    CircleCheckIcon,
+    CircleXIcon,
     HelpIcon,
+    LoaderIcon,
     MenuIcon,
     SearchIcon,
     SettingsIcon,
@@ -279,7 +267,9 @@ export default {
   },
   computed: {
     ...mapGetters({
-      userInfo: 'user/info'
+      userInfo: 'user/info',
+      isUpdating: 'apiData/isUpdating',
+      isTokenExpired: 'user/isTokenExpired'
     })
   },
   methods: {
