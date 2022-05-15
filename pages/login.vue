@@ -1,7 +1,7 @@
 <template>
-  <div>
-    Drag This Bookmarklet
-    <a :href="bookmarkletCode">Progethod</a>
+  <div class="mt-10 ml-10">
+    Drag This Bookmarklet:
+    <a class="m-5 p-3 bg-blue-300 rounded-lg" :href="bookmarkletCode">✨ Progethod</a>
   </div>
 </template>
 
@@ -10,12 +10,10 @@ import bookmarkletCode from '~/utils/login.bookmarklet'
 
 export default {
   async asyncData ({ $axios, store, query, redirect }) {
-    const pageData = {
-      bookmarkletCode
-    }
-
     if (!query.token) {
-      return pageData
+      return {
+        bookmarkletCode
+      }
     }
 
     const { data } = await $axios.$get('me', {

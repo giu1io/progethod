@@ -94,6 +94,8 @@ export default {
   },
   env: {
     apiBaseUrl: process.env.API_URL,
-    feUrl: process.env.FE_URL
+    feUrl: process.env.FE_URL,
+    feHost: process.env.FE_HOST,
+    loginHost: process.env.LOGIN_HOST
   }
 }
