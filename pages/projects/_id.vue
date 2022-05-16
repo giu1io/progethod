@@ -18,7 +18,7 @@
               <div class="container mx-auto">
                 <form class="my-6 w-11/12 mx-auto xl:w-full xl:mx-0">
                   <div class="xl:w-1/4 lg:w-1/2 md:w-1/2 flex flex-col mb-6">
-                    <label for="name" class="pb-2 text-sm font-bold text-gray-800 dark:text-gray-100">First Name</label>
+                    <label for="name" class="pb-2 text-sm font-bold text-gray-800 dark:text-gray-100">{{ $t('project_name') }}</label>
                     <input
                       id="name"
                       v-model="name"
@@ -41,8 +41,8 @@
           </div>
         </div>
         <div class="w-full lg:w-1/3 h-24 dark:border-gray-700 lg:h-64 border-t lg:border-t-0 lg:border-r lg:border-l lg:rounded-r dark:bg-gray-700 bg-gray-100">
-          <button @click="save">
-            Save
+          <button class="m-5 transition duration-150 ease-in-out hover:bg-indigo-600 focus:outline-none border bg-indigo-700 rounded text-white px-8 py-2 text-sm" @click="save">
+            {{ $t('save') }}
           </button>
         </div>
       </div>
@@ -102,6 +102,7 @@ export default {
         linkedProjectId: this.linkedProject?.id,
         linkedAreaId: this.linkedArea?.id
       })
+      this.$router.back()
     },
     selectedProjectChanged () {
       this.linkedArea = null
