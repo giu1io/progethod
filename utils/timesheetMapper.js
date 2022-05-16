@@ -11,7 +11,7 @@ export function prepareForSubmission (dayEntries, userProjects, employeeId) {
           employee_id: employeeId,
           date: day,
           hours: Object.keys(project).map(areaId => ({
-            area_id: parseInt(areaId),
+            area_id: areaId === 'null' ? null : parseInt(areaId),
             types: {
               internal: null,
               remote: project[areaId].decimal_duration,
@@ -32,9 +32,11 @@ function mergeEntries (entries, userProjects) {
   const projects = {}
 
   entries.forEach(({ id, data }) => {
-    const { linkedProjectId, linkedAreaId } = userProjects.find(p => p.id === data.project.id)
+    const { linkedProjectId, linkedAreaId = 'null' } = userProjects.find(p => p.id === data.project.id)
 
-    // TODO error handling if linkedProject/linkedArea not found
+    if (!linkedProjectId) {
+      throw new Error('errors.linked_project_not_found')
+    }
 
     if (!projects[linkedProjectId]) {
       projects[linkedProjectId] = {}

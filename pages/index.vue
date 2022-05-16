@@ -132,6 +132,7 @@ export default {
       const userProjects = this.$store.getters['projects/projects']
       const employeeId = this.$store.getters['user/info'].employee_id
 
+      // TODO error handling if linkedProject/linkedArea not found
       this.timesheetData = prepareForSubmission(dayEntries, userProjects, employeeId)
     }
   }
