@@ -145,45 +145,13 @@
                 <input type="checkbox" class="cursor-pointer relative w-5 h-5 border rounded border-gray-400 bg-white dark:bg-gray-800 outline-none" @click="checkAll">
               </th>
               <th class="text-gray-600 dark:text-gray-400 font-normal pr-6 text-left text-sm tracking-normal leading-4">
-                <div class="text-gray-600 dark:text-gray-400 opacity-0 cursor-default relative w-10">
-                  <div class="absolute top-0 right-0 w-5 h-5 mr-2 -mt-1 rounded-full bg-indigo-700 text-white flex justify-center items-center text-xs">
-                    3
-                  </div>
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    class="icon icon-tabler icon-tabler-file"
-                    width="28"
-                    height="28"
-                    viewBox="0 0 24 24"
-                    stroke-width="1.5"
-                    stroke="currentColor"
-                    fill="none"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                  >
-                    <path stroke="none" d="M0 0h24v24H0z" />
-                    <path d="M14 3v4a1 1 0 0 0 1 1h4" />
-                    <path d="M17 21h-10a2 2 0 0 1 -2 -2v-14a2 2 0 0 1 2 -2h7l5 5v11a2 2 0 0 1 -2 2z" />
-                  </svg>
-                </div>
+                {{ $t('project_name') }}
               </th>
               <th class="text-gray-600 dark:text-gray-400 font-normal pr-6 text-left text-sm tracking-normal leading-4">
-                Invoice Number
+                {{ $t('linked_project') }}
               </th>
               <th class="text-gray-600 dark:text-gray-400 font-normal pr-6 text-left text-sm tracking-normal leading-4">
-                Client
-              </th>
-              <th class="text-gray-600 dark:text-gray-400 font-normal pr-6 text-left text-sm tracking-normal leading-4">
-                Company Contact
-              </th>
-              <th class="text-gray-600 dark:text-gray-400 font-normal pr-6 text-left text-sm tracking-normal leading-4">
-                Amount
-              </th>
-              <th class="text-gray-600 dark:text-gray-400 font-normal pr-6 text-left text-sm tracking-normal leading-4">
-                Date
-              </th>
-              <th class="text-gray-600 dark:text-gray-400 font-normal pr-6 text-left text-sm tracking-normal leading-4">
-                <div class="opacity-0 w-2 h-2 rounded-full bg-indigo-400" />
+                {{ $t('linked_area') }}
               </th>
               <td class="text-gray-600 dark:text-gray-400 font-normal pr-8 text-left text-sm tracking-normal leading-4">
                 More
@@ -196,52 +164,15 @@
                 <input type="checkbox" class="cursor-pointer relative w-5 h-5 border rounded border-gray-400 bg-white dark:bg-gray-800 outline-none" @click="tableInteract">
               </td>
               <td class="text-sm pr-6 whitespace-no-wrap text-gray-800 dark:text-gray-100 tracking-normal leading-4">
-                <div class="relative w-10 text-gray-600 dark:text-gray-400">
-                  <div class="absolute top-0 right-0 w-5 h-5 mr-2 -mt-1 rounded-full bg-indigo-700 text-white flex justify-center items-center text-xs">
-                    {{ project.files }}
-                  </div>
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    class="icon icon-tabler icon-tabler-file"
-                    width="28"
-                    height="28"
-                    viewBox="0 0 24 24"
-                    stroke-width="1.5"
-                    stroke="currentColor"
-                    fill="none"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                  >
-                    <path stroke="none" d="M0 0h24v24H0z" />
-                    <path d="M14 3v4a1 1 0 0 0 1 1h4" />
-                    <path d="M17 21h-10a2 2 0 0 1 -2 -2v-14a2 2 0 0 1 2 -2h7l5 5v11a2 2 0 0 1 -2 2z" />
-                  </svg>
-                </div>
+                <Nuxt-Link :to="localeLocation({ name: 'projects-id', params: { id: project.id } })">
+                  {{ project.name }}
+                </Nuxt-Link>
               </td>
               <td class="text-sm pr-6 whitespace-no-wrap text-gray-800 dark:text-gray-100 tracking-normal leading-4">
-                {{ project.invoice_number }}
+                {{ project.linkedProject }}
               </td>
               <td class="text-sm pr-6 whitespace-no-wrap text-gray-800 dark:text-gray-100 tracking-normal leading-4">
-                {{ project.client }}
-              </td>
-              <td class="pr-6 whitespace-no-wrap">
-                <div class="flex items-center">
-                  <div class="h-8 w-8">
-                    <img src="https://tuk-cdn.s3.amazonaws.com/assets/components/advance_tables/at_1.png" alt="" class="h-full w-full rounded-full overflow-hidden shadow">
-                  </div>
-                  <p class="ml-2 text-gray-800 dark:text-gray-100 tracking-normal leading-4 text-sm">
-                    {{ project.contact }}
-                  </p>
-                </div>
-              </td>
-              <td class="text-sm pr-6 whitespace-no-wrap text-gray-800 dark:text-gray-100 tracking-normal leading-4">
-                {{ project.amount }}
-              </td>
-              <td class="text-sm pr-6 whitespace-no-wrap text-gray-800 dark:text-gray-100 tracking-normal leading-4">
-                {{ project.date }}
-              </td>
-              <td class="pr-6">
-                <div class="w-2 h-2 rounded-full" :class="`bg-${project.color}-400`" />
+                {{ project.linkedArea }}
               </td>
               <td class="pr-8 relative">
                 <div
@@ -258,10 +189,10 @@
                     >
                       Edit
                     </li>
-                    <li class="cursor-pointer text-gray-600 dark:text-gray-400 text-sm leading-3 tracking-normal py-3 hover:bg-indigo-700 hover:text-white px-3 font-normal">
+                    <li class="cursor-pointer text-gray-600 dark:text-gray-400 text-sm leading-3 tracking-normal py-3 hover:bg-indigo-700 hover:text-white px-3 font-normal line-through">
                       Delete
                     </li>
-                    <li class="cursor-pointer text-gray-600 dark:text-gray-400 text-sm leading-3 tracking-normal py-3 hover:bg-indigo-700 hover:text-white px-3 font-normal">
+                    <li class="cursor-pointer text-gray-600 dark:text-gray-400 text-sm leading-3 tracking-normal py-3 hover:bg-indigo-700 hover:text-white px-3 font-normal line-through">
                       Duplicate
                     </li>
                   </ul>
@@ -326,16 +257,26 @@ export default {
   },
   computed: {
     projects () {
-      return this.$store.getters['projects/projects'].map(p => ({
-        id: p.id,
-        files: 4,
-        invoice_number: '#MC10023',
-        client: p.name,
-        contact: 'Carrie Anthony',
-        amount: '$2,500',
-        date: '02.03.20',
-        color: 'red'
-      }))
+      const linkedProjects = this.$store.getters['apiData/projects']
+
+      return this.$store.getters['projects/projects'].map((p) => {
+        let linkedProject = { name: '' }
+        let linkedArea = linkedProject
+
+        if (p.linkedProjectId) {
+          linkedProject = linkedProjects.find(({ id }) => p.linkedProjectId === id)
+          if (linkedProject && p.linkedAreaId) {
+            linkedArea = linkedProject.areas.find(({ id }) => p.linkedAreaId === id)
+          }
+        }
+
+        return {
+          name: p.name,
+          id: p.id,
+          linkedProject: linkedProject.name,
+          linkedArea: linkedArea.name
+        }
+      })
     }
   },
   methods: {
