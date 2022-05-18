@@ -15,19 +15,30 @@
       <alert v-if="totalNotAdjustable" :message="$t('errors.total_not_adjustable')" level="error" />
       <alert v-if="adjustmentWentWrong" :message="$t('errors.error_during_adjustment')" level="error" />
     </div>
-    <div class="flex my-2">
-      <label class="text-gray-800 dark:text-gray-100 text-sm font-bold leading-tight tracking-normal mb-2 w-64">Project</label>
-      <label class="text-gray-800 dark:text-gray-100 text-sm font-bold leading-tight tracking-normal mb-2">Time</label>
+    <div class="flex mt-2 text-gray-800 dark:text-gray-100 text-sm font-bold leading-tight tracking-normal">
+      <div class="w-8 h-8 flex justify-center items-center ml-2" />
+      <div class="w-64 h-8 items-center ml-2">
+        {{ $t('project') }}
+      </div>
+      <div class="ml-2 w-16 shrink-0">
+        {{ $t('duration') }}
+      </div>
+      <div class="flex-col ml-2 grow w-full">
+        {{ $t('notes') }}
+      </div>
+      <div class="flex-col ml-2 w-8" />
+      <div class="w-8 h-8 flex justify-center items-center ml-2" />
+      <div class="ml-2 mr-2 p-2 w-12" />
     </div>
     <div v-for="entry in entries" :key="entry.id">
-      <div class="flex">
+      <div class="flex mb-4">
         <time-entry-item
           :value="entry.data"
           @input="handleUpdateEvent(entry.id, $event)"
           @userSubmit="handleSubmit"
         />
         <a
-          class="text-red-500 p-2 border-transparent border bg-gray-100 dark:bg-gray-700 dark:hover:bg-gray-600 hover:bg-gray-200 cursor-pointer rounded focus:outline-none focus:border-gray-800 focus:shadow-outline-gray"
+          class="ml-2 mr-2 text-red-500 p-2 border-transparent border bg-white hover:bg-gray-300 cursor-pointer rounded focus:outline-none"
           @click="removeEntry(entry.id)"
         >
           <trash-icon

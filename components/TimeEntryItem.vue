@@ -1,6 +1,6 @@
 <template>
-  <div class="flex justify-center items-center">
-    <div class="warning-container w-8 h-8 flex justify-center items-center">
+  <div class="flex items-center w-full">
+    <div class="warning-container w-8 h-8 flex justify-center items-center ml-2">
       <NuxtLink
         v-if="project"
         :to="localeLocation({ name: 'projects-id', params: { id: project.id } })"
@@ -9,51 +9,51 @@
         <external-link-icon v-if="isProjectLinked" class="text-gray-400" />
       </NuxtLink>
     </div>
-    <tags-input
-      ref="taginput"
-      v-model="selectedTags"
-      class="mb-5"
-      :existing-tags="projects"
-      id-field="id"
-      text-field="name"
-      :typeahead="true"
-      typeahead-style="dropdown"
-      :typeahead-hide-discard="true"
-      :limit="1"
-      :hide-input-on-limit="true"
-      :placeholder="$t('select_project')"
-      @tag-added="tagAdded"
-      @tag-removed="tagRemoved"
-    />
-    <duration-input
-      ref="duration"
-      v-model="duration"
-      @input="hasUpdated"
-      @userSubmit="handleSubmit"
-    />
-    <div class="flex-col md:mr-16">
+    <div class="w-64 h-8 items-center ml-2">
+      <tags-input
+        ref="taginput"
+        v-model="selectedTags"
+        class="mb-5"
+        :existing-tags="projects"
+        id-field="id"
+        text-field="name"
+        :typeahead="true"
+        typeahead-style="dropdown"
+        :typeahead-hide-discard="true"
+        :limit="1"
+        :hide-input-on-limit="true"
+        :placeholder="$t('select_project')"
+        @tag-added="tagAdded"
+        @tag-removed="tagRemoved"
+      />
+    </div>
+    <div class="ml-2">
+      <duration-input
+        ref="duration"
+        v-model="duration"
+        @input="hasUpdated"
+        @userSubmit="handleSubmit"
+      />
+    </div>
+    <div class="flex-col ml-2 grow w-full">
       <input
         ref="notes"
         v-model="notes"
-        class="text-gray-600 dark:text-gray-400 focus:outline-none focus:border focus:border-indigo-700 dark:focus:border-indigo-700 dark:border-gray-700 dark:bg-gray-800 bg-white font-normal w-64 h-10 flex items-center pl-3 text-sm border-gray-300 rounded border shadow"
+        class="text-gray-600 dark:text-gray-400 focus:outline-none focus:border focus:border-indigo-700 dark:focus:border-indigo-700 dark:border-gray-700 dark:bg-gray-800 bg-white font-normal w-full h-10 flex items-center pl-3 text-sm border-gray-300 rounded border shadow"
         placeholder="Notes"
         @input="hasUpdated"
         @keyup.enter="handleSubmit"
       >
     </div>
-    <div class="flex-col md:mr-4">
-      <input
-        :value="value.decimal_duration"
-        class="text-gray-600 disabled dark:text-gray-400 focus:outline-none focus:border focus:border-indigo-700 dark:focus:border-indigo-700 dark:border-gray-700 dark:bg-gray-800 bg-white font-normal w-64 h-10 flex items-center pl-3 text-sm border-gray-300 rounded border shadow"
-        disabled
+    <div class="flex-col ml-2 w-8">
+      <span
+        class="text-gray-600"
       >
+        {{ value.decimal_duration }}
+      </span>
     </div>
-    <div class="flex-col md:mr-4">
-      <input
-        type="checkbox"
-        :checked="value.requires_adjustment"
-        disabled
-      >
+    <div class="w-8 h-8 flex justify-center items-center ml-2" :title="$t('requires_adjustment')">
+      <adjustments-horizontal-icon v-if="value.requires_adjustment" class="text-gray-300" />
     </div>
   </div>
 </template>
@@ -61,7 +61,7 @@
 <script>
 import { mapActions, mapGetters } from 'vuex'
 import VoerroTagsInput from '@voerro/vue-tagsinput'
-import { AlertTriangleIcon, ExternalLinkIcon } from 'vue-tabler-icons'
+import { AlertTriangleIcon, ExternalLinkIcon, AdjustmentsHorizontalIcon } from 'vue-tabler-icons'
 import DurationInput from './DurationInput'
 
 export default {
@@ -69,7 +69,8 @@ export default {
     DurationInput,
     TagsInput: VoerroTagsInput,
     AlertTriangleIcon,
-    ExternalLinkIcon
+    ExternalLinkIcon,
+    AdjustmentsHorizontalIcon
   },
   props: {
     value: {
