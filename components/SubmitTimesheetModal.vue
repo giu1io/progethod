@@ -9,15 +9,12 @@
         <div class="flex flex-col items-center px-4 md:px-12">
           <img src="https://i.ibb.co/QDMrqK5/Saly-10.png">
           <p class="text-base sm:text-lg md:text-2xl font-bold md:leading-6 mt-6 text-gray-800 text-center dark:text-gray-100">
-            Don’t miss any Update
+            {{ $t('about_to_submit_timesheet') }}
           </p>
           <p class="text-xs sm:text-sm leading-5 mt-2 sm:mt-4 text-center text-gray-600 dark:text-gray-300">
-            A Text {{ dataToSend.length }}
+            {{ $t('submit_timesheet_warning') }}
           </p>
-          <div class="flex items-center mt-4 sm:mt-6 w-full">
-            <div class="bg-gray-50 border rounded border-gray-200 dark:border-gray-700 dark:bg-gray-700 w-full">
-              <input class="w-full focus:outline-none pl-4 py-3 text-sm leading-none text-gray-600 dark:text-gray-100 bg-transparent placeholder-gray-600 dark:placeholder-gray-100" placeholder="Enter your email">
-            </div>
+          <div class="flex items-center justify-center mt-4 sm:mt-6 w-full">
             <button class="px-3 py-3 bg-indigo-700 dark:bg-indigo-600 focus:outline-none hover:bg-opacity-80 ml-2 rounded" @click="submit()">
               <send-icon width="20" height="20" class="text-white" />
             </button>

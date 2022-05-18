@@ -1,4 +1,5 @@
 {
+  "about_to_submit_timesheet": "Stai per inviare il tuo Timesheet",
   "error": "Errore",
   "errors": {
     "error_during_adjustment": "Si è verificato un prolema nella conversione. Fai uno screenshot di questo giorno e segnala il problema.",
@@ -17,5 +18,6 @@
   "save": "Salva",
   "select_project": "Scegli Progetto",
   "submit_timesheet": "Invia Timesheet",
+  "submit_timesheet_warning": "Quest'operazione è irreversibile e qualsiasi correzione dovrà essere fatta dall'interfaccia ufficiale",
   "warning": "Attenzione"
 }
