@@ -64,9 +64,9 @@
         </ul>
       </div>
       <div class="mt-6 lg:mt-0">
-        <button class="mx-2 my-2 bg-white transition duration-150 ease-in-out focus:outline-none hover:bg-gray-100 rounded text-indigo-700 px-6 py-2 text-sm">
+        <!-- <button class="mx-2 my-2 bg-white transition duration-150 ease-in-out focus:outline-none hover:bg-gray-100 rounded text-indigo-700 px-6 py-2 text-sm">
           Back
-        </button>
+        </button> -->
         <button
           class="transition duration-150 ease-in-out hover:bg-indigo-600 focus:outline-none border bg-indigo-700 rounded text-white px-8 py-2 text-sm"
           @click="submit()"

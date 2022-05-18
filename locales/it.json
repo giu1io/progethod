@@ -7,6 +7,7 @@
   "default_notes": "Nota Predefinita",
   "linked_area": "Area Progetto",
   "linked_project": "Progetto Collegato",
+  "my_week": "La Mia Settimana",
   "project": "Progetto",
   "project_information": "Informazioni Progetto",
   "project_name": "Nome Progetto",
@@ -15,5 +16,6 @@
   "require_notes_description": "Il pm richiede di compilare le note per questo progetto",
   "save": "Salva",
   "select_project": "Scegli Progetto",
+  "submit_timesheet": "Invia Timesheet",
   "warning": "Attenzione"
 }
