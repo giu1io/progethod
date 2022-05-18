@@ -1,14 +1,19 @@
 {
-  "project": "Progetto",
-  "projects": "Progetti",
-  "select_project": "Scegli Progetto",
   "error": "Errore",
-  "warning": "Attenzione",
+  "errors": {
+    "error_during_adjustment": "Si è verificato un prolema nella conversione. Fai uno screenshot di questo giorno e segnala il problema.",
+    "total_not_adjustable": "Il totale delle ore non è divisibile per 60"
+  },
+  "default_notes": "Nota Predefinita",
+  "linked_area": "Area Progetto",
+  "linked_project": "Progetto Collegato",
+  "project": "Progetto",
   "project_information": "Informazioni Progetto",
   "project_name": "Nome Progetto",
+  "projects": "Progetti",
+  "require_notes": "Note Obbligatorie",
+  "require_notes_description": "Il pm richiede di compilare le note per questo progetto",
   "save": "Salva",
-  "errors": {
-    "total_not_adjustable": "Il totale delle ore non è divisibile per 60",
-    "error_during_adjustment": "Si è verificato un prolema nella conversione. Fai uno screenshot di questo giorno e segnala il problema."
-  }
+  "select_project": "Scegli Progetto",
+  "warning": "Attenzione"
 }

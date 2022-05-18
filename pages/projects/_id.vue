@@ -29,12 +29,41 @@
                       placeholder=""
                     >
                   </div>
-                  <div>
+                  <div class="flex flex-col mb-6">
+                    <label for="name" class="pb-2 text-sm font-bold text-gray-800 dark:text-gray-100">{{ $t('linked_project') }}</label>
                     <v-select v-model="linkedProject" label="name" :options="projects" @input="selectedProjectChanged" />
                   </div>
-                  <div v-if="linkedProject">
+                  <div
+                    v-if="linkedProject"
+                    class="flex flex-col mb-6"
+                  >
+                    <label for="name" class="pb-2 text-sm font-bold text-gray-800 dark:text-gray-100">{{ $t('linked_area') }}</label>
                     <v-select v-model="linkedArea" label="name" :options="linkedProject.areas" />
                   </div>
+                  <div class="flex justify-between items-center mb-8">
+                    <div class="w-9/12">
+                      <label for="name" class="pb-2 text-sm font-bold text-gray-800 dark:text-gray-100">{{ $t('require_notes') }}</label>
+                      <p class="text-sm text-gray-500 dark:text-gray-400">
+                        {{ $t('require_notes_description') }}
+                      </p>
+                    </div>
+                    <div class="cursor-pointer rounded-full bg-gray-200 relative shadow-sm">
+                      <input id="toggle" v-model="requiresNotes" type="checkbox" class="focus:outline-none checkbox w-6 h-6 rounded-full bg-indigo-700 dark:bg-gray-400 absolute shadow-sm appearance-none cursor-pointer border border-transparent top-0 bottom-0 m-auto">
+                      <label for="toggle" class="toggle-label block w-12 h-4 overflow-hidden rounded-full bg-gray-300 dark:bg-gray-800 cursor-pointer" />
+                    </div>
+                  </div>
+                  <div class="xl:w-1/4 lg:w-1/2 md:w-1/2 flex flex-col mb-6">
+                    <label for="defaultNotes" class="pb-2 text-sm font-bold text-gray-800 dark:text-gray-100">{{ $t('default_notes') }}</label>
+                    <input
+                      id="defaultNotes"
+                      v-model="defaultNotes"
+                      type="text"
+                      name="defaultNotes"
+                      class="border border-gray-300 dark:border-gray-700 pl-3 py-3 shadow-sm bg-transparent rounded text-sm focus:outline-none focus:border-indigo-700 placeholder-gray-500 text-gray-500 dark:text-gray-400"
+                      placeholder=""
+                    >
+                  </div>
+                  <div class="xl:w-1/4 lg:w-1/2 md:w-1/2 flex flex-col mb-6" />
                 </form>
               </div>
             </div>
@@ -83,6 +112,7 @@ export default {
     return {
       id,
       name: cp.name,
+      defaultNotes: cp.defaultNotes,
       requiresNotes: cp.requiresNotes,
       linkedProject,
       linkedArea
@@ -99,6 +129,7 @@ export default {
         id: this.id,
         name: this.name,
         requiresNotes: this.requiresNotes,
+        defaultNotes: this.defaultNotes,
         linkedProjectId: this.linkedProject?.id,
         linkedAreaId: this.linkedArea?.id
       })
@@ -114,6 +145,12 @@ export default {
 }
 </script>
 
-<style>
-
+<style lang="postcss">
+.checkbox:checked {
+    /* Apply class right-0*/
+    right: 0;
+}
+.checkbox:checked + .toggle-label {
+    @apply bg-pink-400;
+}
 </style>

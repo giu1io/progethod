@@ -114,6 +114,11 @@ export default {
         project = await this.addProject(project.name)
         this.selectedTags = [project]
       }
+
+      if (project.defaultNotes && !this.notes) {
+        this.notes = project.defaultNotes
+      }
+
       if (this.hasUpdated()) {
         // focus next field
         this.$refs.duration.$refs.input.focus()
