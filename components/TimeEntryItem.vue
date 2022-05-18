@@ -2,10 +2,11 @@
   <div class="flex justify-center items-center">
     <div class="warning-container w-8 h-8 flex justify-center items-center">
       <NuxtLink
-        v-if="project && !isProjectLinked"
+        v-if="project"
         :to="localeLocation({ name: 'projects-id', params: { id: project.id } })"
       >
-        <alert-triangle-icon class="text-yellow-500" />
+        <alert-triangle-icon v-if="!isProjectLinked" class="text-yellow-500" />
+        <external-link-icon v-if="isProjectLinked" class="text-gray-400" />
       </NuxtLink>
     </div>
     <tags-input
@@ -60,14 +61,15 @@
 <script>
 import { mapActions, mapGetters } from 'vuex'
 import VoerroTagsInput from '@voerro/vue-tagsinput'
-import { AlertTriangleIcon } from 'vue-tabler-icons'
+import { AlertTriangleIcon, ExternalLinkIcon } from 'vue-tabler-icons'
 import DurationInput from './DurationInput'
 
 export default {
   components: {
     DurationInput,
     TagsInput: VoerroTagsInput,
-    AlertTriangleIcon
+    AlertTriangleIcon,
+    ExternalLinkIcon
   },
   props: {
     value: {
