@@ -1,6 +1,6 @@
 <template>
-  <div class="flex items-center w-full">
-    <div class="warning-container w-8 h-8 flex justify-center items-center ml-2">
+  <div class="contents">
+    <div class="warning-container w-8 h-8 flex justify-center items-center ">
       <NuxtLink
         v-if="project"
         :to="localeLocation({ name: 'projects-id', params: { id: project.id } })"
@@ -9,11 +9,11 @@
         <external-link-icon v-if="isProjectLinked" class="text-gray-400" />
       </NuxtLink>
     </div>
-    <div class="w-64 h-8 items-center ml-2">
+    <div class="w-full h-full">
       <tags-input
         ref="taginput"
         v-model="selectedTags"
-        class="mb-5"
+        class="w-full h-full"
         :existing-tags="projects"
         id-field="id"
         text-field="name"
@@ -27,7 +27,7 @@
         @tag-removed="tagRemoved"
       />
     </div>
-    <div class="ml-2">
+    <div>
       <duration-input
         ref="duration"
         v-model="duration"
@@ -35,7 +35,7 @@
         @userSubmit="handleSubmit"
       />
     </div>
-    <div class="flex-col ml-2 grow w-full">
+    <div class="w-full">
       <input
         ref="notes"
         v-model="notes"
@@ -45,14 +45,14 @@
         @keyup.enter="handleSubmit"
       >
     </div>
-    <div class="flex-col ml-2 w-8">
+    <div>
       <span
         class="text-gray-600"
       >
         {{ value.decimal_duration }}
       </span>
     </div>
-    <div class="w-8 h-8 flex justify-center items-center ml-2" :title="$t('requires_adjustment')">
+    <div class="flex justify-center items-center" :title="$t('requires_adjustment')">
       <adjustments-horizontal-icon v-if="value.requires_adjustment" class="text-gray-300" />
     </div>
   </div>

@@ -15,29 +15,29 @@
       <alert v-if="totalNotAdjustable" :message="$t('errors.total_not_adjustable')" level="error" />
       <alert v-if="adjustmentWentWrong" :message="$t('errors.error_during_adjustment')" level="error" />
     </div>
-    <div class="flex mt-2 text-gray-800 dark:text-gray-100 text-sm font-bold leading-tight tracking-normal">
-      <div class="w-8 h-8 flex justify-center items-center ml-2" />
-      <div class="w-64 h-8 items-center ml-2">
+    <div class="entries-table mb-4 mt-2">
+      <div />
+      <div class="entries-th">
         {{ $t('project') }}
       </div>
-      <div class="ml-2 w-16 shrink-0">
+      <div class="entries-th">
         {{ $t('duration') }}
       </div>
-      <div class="flex-col ml-2 grow w-full">
+      <div class="entries-th">
         {{ $t('notes') }}
       </div>
-      <div class="flex-col ml-2 w-8" />
-      <div class="w-8 h-8 flex justify-center items-center ml-2" />
-      <div class="ml-2 mr-2 p-2 w-12" />
-    </div>
-    <div v-for="entry in entries" :key="entry.id">
-      <div class="flex mb-4">
+      <div />
+      <div />
+      <div />
+      <template v-for="entry in entries">
         <time-entry-item
+          :key="`entry_${entry.id}`"
           :value="entry.data"
           @input="handleUpdateEvent(entry.id, $event)"
           @userSubmit="handleSubmit"
         />
         <a
+          :key="`trash_${entry.id}`"
           class="ml-2 mr-2 text-red-500 p-2 border-transparent border bg-white hover:bg-gray-300 cursor-pointer rounded focus:outline-none"
           @click="removeEntry(entry.id)"
         >
@@ -52,7 +52,7 @@
             stroke-linejoin="round"
           />
         </a>
-      </div>
+      </template>
     </div>
     <div
       class="text-white ml-4 cursor-pointer focus:outline-none border border-transparent focus:border-gray-800 focus:shadow-outline-gray bg-indigo-700 transition duration-150 ease-in-out hover:bg-indigo-600 w-8 h-8 rounded flex items-center justify-center"
@@ -188,6 +188,16 @@ export default {
 }
 </script>
 
-<style>
+<style lang="postcss">
+  .entries-table {
+    display: grid;
+    grid-template-columns: [warn] 2rem [project] 14rem [duration] 4rem [notes] auto [decimal] 2rem [adjustment] 1.5rem [delete] 3rem;
+    grid-template-rows: auto;
+    place-items: center;
+    grid-gap: 0.5rem 0.5rem;
+  }
 
+  .entries-th {
+    @apply w-full text-gray-800 text-sm font-bold leading-tight tracking-normal
+  }
 </style>
