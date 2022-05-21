@@ -7,7 +7,7 @@ export const state = () => ({
     email: '',
     name: '',
     surname: '',
-    pic: 'https://tuk-cdn.s3.amazonaws.com/assets/components/boxed_layout/bl_1.png'
+    pic: null
   }
 })
 
