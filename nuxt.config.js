@@ -95,6 +95,21 @@ export default {
       'format', 'addDays', 'startOfWeek', 'intervalToDuration'
     ]
   },
+  tailwindcss: {
+    config: {
+      options: {
+        // List your classes here, or you can even use RegExp
+        safelist: [
+          'bg-red-500',
+          'bg-red-200',
+          'text-red-500',
+          'bg-yellow-500',
+          'bg-yellow-200',
+          'text-yellow-500'
+        ]
+      }
+    }
+  },
   env: {
     apiBaseUrl: process.env.API_URL,
     feUrl: process.env.FE_URL,
