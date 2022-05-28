@@ -12,7 +12,7 @@
               height="44"
               viewBox="0 0 300 300"
               width="43"
-              src="/icon.png"
+              src="/progethod.svg"
             >
             <h3 class="text-base text-gray-800 font-bold tracking-normal leading-tight ml-3 hidden lg:block">
               Progethod
