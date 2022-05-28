@@ -118,8 +118,6 @@ export default {
   },
   methods: {
     submit () {
-      this.modal = true
-
       const dayEntries = this.days.map((day) => {
         const dayStr = this.$dateFns.format(day, 'yyyy-MM-dd')
         return {
@@ -133,7 +131,13 @@ export default {
       const employeeId = this.$store.getters['user/info'].employee_id
 
       // TODO error handling if linkedProject/linkedArea not found
-      this.timesheetData = prepareForSubmission(dayEntries, userProjects, employeeId)
+      try {
+        this.timesheetData = prepareForSubmission(dayEntries, userProjects, employeeId)
+        this.modal = true
+      } catch (error) {
+        console.error(error)
+        alert(this.$t(error.message))
+      }
     }
   }
 }

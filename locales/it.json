@@ -3,7 +3,8 @@
   "error": "Errore",
   "errors": {
     "error_during_adjustment": "Si è verificato un prolema nella conversione. Fai uno screenshot di questo giorno e segnala il problema.",
-    "total_not_adjustable": "Il totale delle ore non è divisibile per 60"
+    "total_not_adjustable": "Il totale delle ore non è divisibile per 60",
+    "linked_project_not_found": "Progetto collegato non trovato. Una o più riga non è stata associata ad un progetto."
   },
   "default_notes": "Nota Predefinita",
   "duration": "Durata",

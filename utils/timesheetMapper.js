@@ -31,31 +31,33 @@ export function prepareForSubmission (dayEntries, userProjects, employeeId) {
 function mergeEntries (entries, userProjects) {
   const projects = {}
 
-  entries.forEach(({ id, data }) => {
-    const { linkedProjectId, linkedAreaId = 'null' } = userProjects.find(p => p.id === data.project.id)
+  entries
+    .filter(({ data }) => data.duration > 0)
+    .forEach(({ id, data }) => {
+      const { linkedProjectId, linkedAreaId = 'null' } = userProjects.find(p => p.id === data.project?.id) || {}
 
-    if (!linkedProjectId) {
-      throw new Error('errors.linked_project_not_found')
-    }
-
-    if (!projects[linkedProjectId]) {
-      projects[linkedProjectId] = {}
-    }
-
-    const project = projects[linkedProjectId]
-
-    if (!project[linkedAreaId]) {
-      project[linkedAreaId] = {
-        decimal_duration: 0,
-        notes: []
+      if (!linkedProjectId) {
+        throw new Error('errors.linked_project_not_found')
       }
-    }
 
-    const area = project[linkedAreaId]
+      if (!projects[linkedProjectId]) {
+        projects[linkedProjectId] = {}
+      }
 
-    area.decimal_duration = ((area.decimal_duration * 10) + (data.decimal_duration * 10)) / 10
-    area.notes.push(`- ${data.notes || '%'} *${minutesToHHmm(data.duration)}* #${id}`)
-  })
+      const project = projects[linkedProjectId]
+
+      if (!project[linkedAreaId]) {
+        project[linkedAreaId] = {
+          decimal_duration: 0,
+          notes: []
+        }
+      }
+
+      const area = project[linkedAreaId]
+
+      area.decimal_duration = ((area.decimal_duration * 10) + (data.decimal_duration * 10)) / 10
+      area.notes.push(`- ${data.notes || '%'} *${minutesToHHmm(data.duration)}* #${id}`)
+    })
 
   return projects
 }
