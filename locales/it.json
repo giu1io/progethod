@@ -11,6 +11,7 @@
   "linked_project": "Progetto Collegato",
   "my_week": "La Mia Settimana",
   "notes": "Note",
+  "please_wait_sending": "Attendere mentre i dati vengono inviati...",
   "project": "Progetto",
   "project_information": "Informazioni Progetto",
   "project_name": "Nome Progetto",
@@ -20,6 +21,7 @@
   "requires_adjustment": "Questa durata non è un multiplo di 6 e verrà arrotondata",
   "save": "Salva",
   "select_project": "Scegli Progetto",
+  "sent": "Inviato",
   "submit_timesheet": "Invia Timesheet",
   "submit_timesheet_warning": "Quest'operazione è irreversibile e qualsiasi correzione dovrà essere fatta dall'interfaccia ufficiale",
   "warning": "Attenzione"

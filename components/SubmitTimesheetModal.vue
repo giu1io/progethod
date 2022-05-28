@@ -14,9 +14,36 @@
           <p class="text-xs sm:text-sm leading-5 mt-2 sm:mt-4 text-center text-gray-600 dark:text-gray-300">
             {{ $t('submit_timesheet_warning') }}
           </p>
+          <div>
+            <div class="w-full my-2 h-12 transition-opacity opacity-0" :class="{ 'opacity-100': isSubmitting }">
+              <div class="flex justify-between items-center pb-2 flex-col">
+                <p class="text-xs text-indigo-700 font-bold">
+                  {{ sentPercentage }}% {{ $t('sent') }}
+                </p>
+                <p class="text-xs font-bold text-gray-800">
+                  {{ $t('please_wait_sending') }}
+                </p>
+              </div>
+              <div class="flex items-center">
+                <div class="w-full bg-gray-200 h-1 mr-1 rounded-tl rounded-bl relative">
+                  <div class="h-1 bg-indigo-700" :style="{ width: `${sentPercentage}%` }" />
+                </div>
+              </div>
+            </div>
+          </div>
           <div class="flex items-center justify-center mt-4 sm:mt-6 w-full">
-            <button class="px-3 py-3 bg-indigo-700 dark:bg-indigo-600 focus:outline-none hover:bg-opacity-80 ml-2 rounded" @click="submit()">
+            <button
+              v-if="!isSubmitting"
+              class="px-6 py-2 bg-indigo-700 dark:bg-indigo-600 focus:outline-none hover:bg-opacity-80 mx-2 my-2 rounded"
+              @click="submit()"
+            >
               <send-icon width="20" height="20" class="text-white" />
+            </button>
+            <button
+              v-if="isSubmitting"
+              class="mx-2 my-2 bg-gray-100 rounded border border-gray-300 text-gray-600 px-6 py-2 text-xs cursor-default"
+            >
+              <send-icon width="20" height="20" class="text-gray-600" />
             </button>
           </div>
         </div>
@@ -34,6 +61,9 @@
 
 <script>
 import { XIcon, SendIcon } from 'vue-tabler-icons'
+import pLimit from 'p-limit'
+
+const limit = pLimit(5)
 
 export default {
   components: {
@@ -50,9 +80,19 @@ export default {
       default: () => []
     }
   },
+  data () {
+    return {
+      isSubmitting: false,
+      sentData: 0
+    }
+  },
   computed: {
     dataToSend () {
       return this.timesheetData || []
+    },
+    sentPercentage () {
+      const total = this.timesheetData?.length || 0
+      return Math.floor((this.sentData * 100 / total) || 0)
     }
   },
   methods: {
@@ -60,15 +100,21 @@ export default {
       this.$emit('input', false)
     },
     async submit () {
-      const dataToSend = this.dataToSend
+      this.isSubmitting = true
+      this.sentData = 0
 
-      while (dataToSend.length > 0) {
-        const batch = dataToSend.splice(0, 5)
-        // TODO Error handling
-        await Promise.all(batch.map(entry => this.$axios.post('timetracking', entry)))
-      }
+      // TODO Error handling
+      await Promise.all(
+        this.dataToSend.map(
+          entry => limit(
+            () => this.$axios.post('timetracking', entry)
+              .then(() => this.sentData++)
+          )
+        )
+      )
 
       this.dismiss()
+      this.isSubmitting = false
     }
   }
 }
