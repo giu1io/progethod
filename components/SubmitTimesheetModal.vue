@@ -4,9 +4,9 @@
     class="py-12 dark:bg-black bg-gray-700 transition-opacity z-10 absolute top-0 right-0 bottom-0 left-0"
     :class="{'opacity-0': !value, 'pointer-events-none': !value, 'opacity-100': value}"
   >
-    <div role="alert" class="container mx-auto w-11/12 md:w-2/3 max-w-lg flex justify-center">
+    <div role="alert" class="container mx-auto w-11/12 md:w-2/3 max-w-xl flex justify-center">
       <div class="relative w-11/12 sm:w-8/12 md:w-9/12 bg-white dark:bg-gray-800 shadow pt-10 pb-8 rounded">
-        <div class="flex flex-col items-center px-4 md:px-12">
+        <div class="flex flex-col items-center px-4 md:px-8">
           <img src="https://i.ibb.co/QDMrqK5/Saly-10.png">
           <p class="text-base sm:text-lg md:text-2xl font-bold md:leading-6 mt-6 text-gray-800 text-center dark:text-gray-100">
             {{ $t('about_to_submit_timesheet') }}
@@ -15,7 +15,7 @@
             {{ $t('submit_timesheet_warning') }}
           </p>
           <div>
-            <div class="w-full my-2 h-12 transition-opacity opacity-0" :class="{ 'opacity-100': isSubmitting }">
+            <div class="w-full my-2 h-12 transition-opacity opacity-0" :class="{ 'opacity-100': isSubmitting && !isExpired }">
               <div class="flex justify-between items-center pb-2 flex-col">
                 <p class="text-xs text-indigo-700 font-bold">
                   {{ sentPercentage }}% {{ $t('sent') }}
@@ -31,7 +31,8 @@
               </div>
             </div>
           </div>
-          <div class="flex items-center justify-center mt-4 sm:mt-6 w-full">
+          <alert v-if="isExpired" class="w-full" level="error" :message="$t('session_expired')" />
+          <div v-if="!isExpired" class="flex items-center justify-center mt-4 sm:mt-6 w-full">
             <button
               v-if="!isSubmitting"
               class="px-6 py-2 bg-indigo-700 dark:bg-indigo-600 focus:outline-none hover:bg-opacity-80 mx-2 my-2 rounded"
@@ -62,6 +63,7 @@
 <script>
 import { XIcon, SendIcon } from 'vue-tabler-icons'
 import pLimit from 'p-limit'
+import { mapGetters } from 'vuex'
 
 const limit = pLimit(5)
 
@@ -93,7 +95,10 @@ export default {
     sentPercentage () {
       const total = this.timesheetData?.length || 0
       return Math.floor((this.sentData * 100 / total) || 0)
-    }
+    },
+    ...mapGetters({
+      isExpired: 'user/isTokenExpired'
+    })
   },
   methods: {
     dismiss () {

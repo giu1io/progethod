@@ -22,6 +22,7 @@
   "save": "Salva",
   "select_project": "Scegli Progetto",
   "sent": "Inviato",
+  "session_expired": "Sessione Scaduta. Usa la bookmarklet per effetturare di nuovo il login.",
   "submit_timesheet": "Invia Timesheet",
   "submit_timesheet_warning": "Quest'operazione è irreversibile e qualsiasi correzione dovrà essere fatta dall'interfaccia ufficiale",
   "warning": "Attenzione"
