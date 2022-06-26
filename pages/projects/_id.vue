@@ -30,15 +30,22 @@
                     >
                   </div>
                   <div class="flex flex-col mb-6">
-                    <label for="name" class="pb-2 text-sm font-bold text-gray-800 dark:text-gray-100">{{ $t('linked_project') }}</label>
+                    <label for="linked_project" class="pb-2 text-sm font-bold text-gray-800 dark:text-gray-100">{{ $t('linked_project') }}</label>
                     <v-select v-model="linkedProject" label="name" :options="projects" @input="selectedProjectChanged" />
                   </div>
                   <div
                     v-if="linkedProject"
                     class="flex flex-col mb-6"
                   >
-                    <label for="name" class="pb-2 text-sm font-bold text-gray-800 dark:text-gray-100">{{ $t('linked_area') }}</label>
+                    <label for="linked_area" class="pb-2 text-sm font-bold text-gray-800 dark:text-gray-100">{{ $t('linked_area') }}</label>
                     <v-select v-model="linkedArea" label="name" :options="linkedProject.areas" />
+                  </div>
+                  <div
+                    v-if="linkedProject"
+                    class="flex flex-col mb-6"
+                  >
+                    <label for="linked_jira_project" class="pb-2 text-sm font-bold text-gray-800 dark:text-gray-100">{{ $t('linked_jira_project') }}</label>
+                    <v-select v-model="linkedJiraProject" label="name" :options="jiraProjects" />
                   </div>
                   <div class="flex justify-between items-center mb-8">
                     <div class="w-9/12">
@@ -100,7 +107,7 @@ export default {
       error({ statusCode: 404, message: 'Project not found' })
     }
 
-    let linkedProject, linkedArea
+    let linkedProject, linkedArea, linkedJiraProject
     if (cp.linkedProjectId) {
       linkedProject = store.getters['apiData/projects'].find(p => p.id === cp.linkedProjectId)
     }
@@ -109,18 +116,25 @@ export default {
       linkedArea = linkedProject.areas.find(a => a.id === cp.linkedAreaId)
     }
 
+    if (cp.linkedJiraProjectId) {
+      linkedJiraProject = store.getters['jira/projects'].find(p => p.id === cp.linkedJiraProjectId)
+    }
+
     return {
       id,
       name: cp.name,
       defaultNotes: cp.defaultNotes,
       requiresNotes: cp.requiresNotes,
       linkedProject,
-      linkedArea
+      linkedArea,
+      linkedJiraProject
     }
   },
   computed: {
     ...mapGetters({
-      projects: 'apiData/projects'
+      projects: 'apiData/projects',
+      jiraProjects: 'jira/projects',
+      isJiraConnected: 'jira/canMakeRequests'
     })
   },
   methods: {
@@ -131,7 +145,8 @@ export default {
         requiresNotes: this.requiresNotes,
         defaultNotes: this.defaultNotes,
         linkedProjectId: this.linkedProject?.id,
-        linkedAreaId: this.linkedArea?.id
+        linkedAreaId: this.linkedArea?.id,
+        linkedJiraProjectId: this.linkedJiraProject?.id
       })
       this.$router.back()
     },

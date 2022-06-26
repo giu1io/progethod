@@ -40,7 +40,7 @@ const corsHeaders = async ({ next, env, request }) => {
 }
 
 const auth = ({ next, request, env, data }) => {
-  data.authToken = request.headers.get('x-sf-sess-id')
+  data.authToken = request.headers.get('x-sf-sess-id') || request.headers.get('authorization')
 
   // require auth token only for /api
   if (data.authToken || !isApi(request)) {

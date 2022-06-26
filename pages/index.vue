@@ -68,6 +68,13 @@
           Back
         </button> -->
         <button
+          v-if="isJiraEnabled"
+          class="mx-2 my-2 bg-white transition duration-150 ease-in-out focus:outline-none hover:bg-gray-100 rounded text-indigo-700 px-6 py-2 text-sm border border-indigo-700"
+          @click="importFromJira()"
+        >
+          {{ $t('import_from_jira') }}
+        </button>
+        <button
           class="transition duration-150 ease-in-out hover:bg-indigo-600 focus:outline-none border bg-indigo-700 rounded text-white px-8 py-2 text-sm"
           @click="submit()"
         >
@@ -90,6 +97,8 @@
 
 <script>
 import { PaperclipIcon } from 'vue-tabler-icons'
+import { mapGetters, mapActions } from 'vuex'
+import { parseISO } from 'date-fns'
 import DayInputItem from '~/components/DayInputItem'
 import SubmitTimesheetModal from '~/components/SubmitTimesheetModal'
 import { prepareForSubmission } from '~/utils/timesheetMapper'
@@ -116,6 +125,11 @@ export default {
       timesheetData: null
     }
   },
+  computed: {
+    ...mapGetters({
+      isJiraEnabled: 'jira/canMakeRequests'
+    })
+  },
   methods: {
     submit () {
       const dayEntries = this.days.map((day) => {
@@ -138,7 +152,58 @@ export default {
         console.error(error)
         alert(this.$t(error.message))
       }
-    }
+    },
+    async importFromJira () {
+      const projects = this.$store.getters['projects/projects']
+      const existingEntries = this.$store.getters['entries/entries']
+      const jiraAccountId = this.$store.getters['jira/info'].accountId
+      const jiraLink = new Map()
+
+      projects
+        .filter(p => p.linkedJiraProjectId)
+        .forEach(({ id, linkedJiraProjectId }) => jiraLink.set(linkedJiraProjectId, id))
+
+      const jiraProjects = this.$store.getters['jira/projects']
+
+      for (const [jpId, pId] of jiraLink.entries()) {
+        const jp = jiraProjects.find(p => p.id === jpId)
+        const project = projects.find(p => p.id === pId)
+
+        const { data: { issues } } = await this.$jira.get('search-issues', {
+          params: {
+            jql: `project = "${jp.key}" AND worklogAuthor = currentUser() AND worklogDate >= startOfWeek() ORDER BY created DESC `
+          }
+        })
+
+        const worklogs = await Promise.all(
+          issues.map(i => this.$jira.get(`worklog/${i.key}`)
+            .then(r => r.data.worklogs)
+            .then(worklogs => worklogs.filter(w => w.author.accountId === jiraAccountId)))
+        )
+
+        const entries = []
+        issues.forEach((issue, index) => {
+          worklogs[index].forEach((w) => {
+            entries.push({
+              day: this.$dateFns.format(parseISO(w.started), 'yyyy-MM-dd'),
+              data: {
+                duration: Math.floor(w.timeSpentSeconds / 60),
+                project,
+                notes: `${issue.fields.summary}`,
+                worklogId: w.id
+              }
+            })
+          })
+        })
+
+        entries
+          .filter(e => !existingEntries.find(ee => e.data.worklogId === ee.data.worklogId))
+          .forEach(e => this.addEntry(e))
+      }
+    },
+    ...mapActions({
+      addEntry: 'entries/add'
+    })
   }
 }
 </script>

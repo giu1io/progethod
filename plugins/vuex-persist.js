@@ -5,7 +5,7 @@ import { differenceInDays, parse } from 'date-fns'
 export default ({ store }) => {
   new VuexPersistence({
     storage: window.localStorage,
-    reducer ({ projects, entries, user, apiData }) {
+    reducer ({ projects, entries, user, apiData, jira }) {
       return {
         projects,
         entries: {
@@ -13,6 +13,7 @@ export default ({ store }) => {
             .filter(e => differenceInDays(new Date(), parse(e.day, 'yyyy-MM-dd', new Date())) < 30)
         },
         user,
+        jira,
         apiData: {
           projects: apiData.projects,
           lastUpdatedAt: apiData.lastUpdatedAt
