@@ -128,11 +128,12 @@ export default {
       })
 
       const userProjects = this.$store.getters['projects/projects']
+      const linkedProjects = this.$store.getters['apiData/projects']
       const employeeId = this.$store.getters['user/info'].employee_id
 
       // TODO error handling if linkedProject/linkedArea not found
       try {
-        this.timesheetData = prepareForSubmission(dayEntries, userProjects, employeeId)
+        this.timesheetData = prepareForSubmission(dayEntries, userProjects, linkedProjects, employeeId)
         this.modal = true
       } catch (error) {
         console.error(error)

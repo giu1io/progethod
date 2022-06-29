@@ -1,8 +1,8 @@
 import { minutesToHHmm } from './duration'
 
-export function prepareForSubmission (dayEntries, userProjects, employeeId) {
+export function prepareForSubmission (dayEntries, userProjects, linkedProjects, employeeId) {
   return dayEntries
-    .map(({ entries, day }) => ({ day, projects: mergeEntries(entries, userProjects) }))
+    .map(({ entries, day }) => ({ day, projects: mergeEntries(entries, userProjects, linkedProjects) }))
     .map(({ day, projects }) => {
       return Object.keys(projects).map((projectId) => {
         const project = projects[projectId]
@@ -28,16 +28,25 @@ export function prepareForSubmission (dayEntries, userProjects, employeeId) {
     .reduce((acc, day) => acc.concat(day), [])
 }
 
-function mergeEntries (entries, userProjects) {
+function mergeEntries (entries, userProjects, linkedProjects) {
   const projects = {}
 
   entries
     .filter(({ data }) => data.duration > 0)
     .forEach(({ id, data }) => {
       const { linkedProjectId, linkedAreaId = 'null' } = userProjects.find(p => p.id === data.project?.id) || {}
-
       if (!linkedProjectId) {
         throw new Error('errors.linked_project_not_found')
+      }
+
+      const linkedProject = linkedProjects.find(p => p.id === linkedProjectId)
+
+      if (!linkedProject) {
+        throw new Error('errors.linked_project_not_found')
+      }
+
+      if (linkedProject.isAutomatic) {
+        return
       }
 
       if (!projects[linkedProjectId]) {
