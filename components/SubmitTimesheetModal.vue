@@ -26,7 +26,7 @@
               </div>
               <div class="flex items-center">
                 <div class="w-full bg-gray-200 h-1 mr-1 rounded-tl rounded-bl relative">
-                  <div class="h-1 bg-indigo-700" :style="{ width: `${sentPercentage}%` }" />
+                  <div class="h-1 bg-indigo-700 transition-transform w-full origin-left" :style="{ transform: `scaleX(${sentPercentage / 100})` }" />
                 </div>
               </div>
             </div>

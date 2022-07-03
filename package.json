@@ -14,10 +14,10 @@
   },
   "dependencies": {
     "@nuxtjs/axios": "^5.13.6",
-    "@nuxtjs/i18n": "^7.2.1",
+    "@nuxtjs/i18n": "^7.2.2",
     "@nuxtjs/pwa": "^3.3.5",
     "@voerro/vue-tagsinput": "^2.7.1",
-    "core-js": "^3.19.3",
+    "core-js": "^3.23.3",
     "nuxt": "^2.15.8",
     "p-limit": "^4.0.0",
     "short-unique-id": "^4.4.4",
@@ -31,16 +31,16 @@
     "webpack": "^4.46.0"
   },
   "devDependencies": {
-    "@babel/eslint-parser": "^7.16.3",
+    "@babel/eslint-parser": "^7.18.2",
     "@nuxtjs/date-fns": "^1.5.0",
-    "@nuxtjs/eslint-config": "^8.0.0",
-    "@nuxtjs/eslint-module": "^3.0.2",
+    "@nuxtjs/eslint-config": "^10.0.0",
+    "@nuxtjs/eslint-module": "^3.1.0",
     "@nuxtjs/tailwindcss": "^4.2.1",
-    "eslint": "^8.4.1",
+    "eslint": "^8.19.0",
     "eslint-plugin-nuxt": "^3.1.0",
     "eslint-plugin-vue": "^8.2.0",
-    "postcss": "^8.4.4",
-    "wrangler": "^2.0.1"
+    "postcss": "^8.4.14",
+    "wrangler": "^2.0.15"
   },
   "volta": {
     "node": "16.14.2"
