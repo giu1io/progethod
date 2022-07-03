@@ -114,6 +114,7 @@ export default {
     apiBaseUrl: `${process.env.CF_PAGES_URL}/api/`,
     feUrl: `${process.env.CF_PAGES_URL}/`,
     feHost: (new URL(process.env.CF_PAGES_URL)).host,
-    loginHost: process.env.LOGIN_HOST
+    loginHost: process.env.LOGIN_HOST,
+    instructionVideoUrl: process.env.INSTRUCTION_VIDEO_URL
   }
 }

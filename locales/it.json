@@ -7,9 +7,11 @@
     "linked_project_not_found": "Progetto collegato non trovato. Una o più riga non è stata associata ad un progetto."
   },
   "default_notes": "Nota Predefinita",
+  "drag_this_bookmarklet": "Trascina questa bookmarklet",
   "duration": "Durata",
   "linked_area": "Area Progetto",
   "linked_project": "Progetto Collegato",
+  "login_instructions": "Come fare il login",
   "my_week": "La Mia Settimana",
   "notes": "Note",
   "please_wait_sending": "Attendere mentre i dati vengono inviati...",
