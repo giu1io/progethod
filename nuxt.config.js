@@ -58,7 +58,7 @@ export default {
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
   axios: {
     // Workaround to avoid enforcing hard-coded localhost:3000: https://github.com/nuxt-community/axios-module/issues/308
-    baseURL: '/'
+    baseURL: '/api/'
   },
 
   // PWA module configuration: https://go.nuxtjs.dev/pwa
@@ -111,9 +111,9 @@ export default {
     }
   },
   env: {
-    apiBaseUrl: process.env.API_URL,
-    feUrl: process.env.FE_URL,
-    feHost: process.env.FE_HOST,
+    apiBaseUrl: `${process.env.CF_PAGES_URL}/api/`,
+    feUrl: `${process.env.CF_PAGES_URL}/`,
+    feHost: (new URL(process.env.CF_PAGES_URL)).host,
     loginHost: process.env.LOGIN_HOST
   }
 }
