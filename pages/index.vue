@@ -2,6 +2,7 @@
   <div>
     <!-- Page title starts -->
 
+    <alert v-if="isTokenExpired" :message="$t('session_expired')" level="warning" />
     <div class="my-6 lg:my-12 container px-6 mx-auto flex flex-col lg:flex-row items-start lg:items-center justify-between pb-4 border-b border-gray-300">
       <div>
         <h4 class="text-2xl font-bold leading-tight text-gray-800">
@@ -127,6 +128,7 @@ export default {
   },
   computed: {
     ...mapGetters({
+      isTokenExpired: 'user/isTokenExpired',
       isJiraEnabled: 'jira/canMakeRequests'
     })
   },
