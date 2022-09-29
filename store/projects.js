@@ -31,5 +31,8 @@ export const mutations = {
   },
   remove (state, id) {
     state.projects.splice(state.projects.findIndex(p => p.id === id), 1)
+  },
+  restoreBackup (state, projects) {
+    state.projects = projects
   }
 }

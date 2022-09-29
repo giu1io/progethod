@@ -52,5 +52,8 @@ export const mutations = {
   },
   remove (state, id) {
     state.entries.splice(state.entries.findIndex(p => p.id === id), 1)
+  },
+  restoreBackup (state, entries) {
+    state.entries = entries
   }
 }

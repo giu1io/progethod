@@ -122,6 +122,40 @@
                     />
                     <span class="ml-2">Account Settings</span>
                   </li>
+                  <li
+                    class="cursor-pointer text-gray-600 text-sm leading-3 tracking-normal mt-2 py-2 hover:text-indigo-700 flex items-center focus:text-indigo-700 focus:outline-none"
+                    @click="backup()"
+                  >
+                    <database-export-icon
+                      class="icon icon-tabler icon-tabler-settings"
+                      width="20"
+                      height="20"
+                      viewBox="0 0 24 24"
+                      stroke-width="1.5"
+                      stroke="currentColor"
+                      fill="none"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    />
+                    <span class="ml-2">Backup</span>
+                  </li>
+                  <li
+                    class="cursor-pointer text-gray-600 text-sm leading-3 tracking-normal mt-2 py-2 hover:text-indigo-700 flex items-center focus:text-indigo-700 focus:outline-none"
+                    @click="restore()"
+                  >
+                    <database-import-icon
+                      class="icon icon-tabler icon-tabler-settings"
+                      width="20"
+                      height="20"
+                      viewBox="0 0 24 24"
+                      stroke-width="1.5"
+                      stroke="currentColor"
+                      fill="none"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    />
+                    <span class="ml-2">Restore</span>
+                  </li>
                 </ul>
                 <img class="rounded h-10 w-10 object-cover" :src="userInfo.pic || profilePhoto" alt="logo">
                 <p class="text-gray-800 text-sm ml-2">
@@ -190,6 +224,44 @@
                 <span class="leading-6 ml-2">Profile</span>
               </div>
             </li>
+            <li
+              class="ml-2 cursor-pointer text-gray-600 text-base leading-3 tracking-normal py-2 hover:text-indigo-700 focus:text-indigo-700 focus:outline-none"
+              @click="backup()"
+            >
+              <div class="flex items-center">
+                <database-export-icon
+                  class="icon icon-tabler icon-tabler-user"
+                  width="24"
+                  height="24"
+                  viewBox="0 0 24 24"
+                  stroke-width="1.5"
+                  stroke="currentColor"
+                  fill="none"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+                <span class="leading-6 ml-2">Backup</span>
+              </div>
+            </li>
+            <li
+              class="ml-2 cursor-pointer text-gray-600 text-base leading-3 tracking-normal py-2 hover:text-indigo-700 focus:text-indigo-700 focus:outline-none"
+              @click="restore()"
+            >
+              <div class="flex items-center">
+                <database-import-icon
+                  class="icon icon-tabler icon-tabler-user"
+                  width="24"
+                  height="24"
+                  viewBox="0 0 24 24"
+                  stroke-width="1.5"
+                  stroke="currentColor"
+                  fill="none"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+                <span class="leading-6 ml-2">Restore</span>
+              </div>
+            </li>
           </ul>
 
           <menu-icon
@@ -238,6 +310,8 @@ import {
   ChevronDownIcon,
   CircleCheckIcon,
   CircleXIcon,
+  DatabaseExportIcon,
+  DatabaseImportIcon,
   HelpIcon,
   LoaderIcon,
   MenuIcon,
@@ -245,12 +319,15 @@ import {
   SettingsIcon,
   UserIcon
 } from 'vue-tabler-icons'
+import { getBackupData, getBackupFile, triggerFileDownload, askForBackupFile, restoreBackup } from '~/utils/backupRestore'
 
 export default {
   components: {
     ChevronDownIcon,
     CircleCheckIcon,
     CircleXIcon,
+    DatabaseExportIcon,
+    DatabaseImportIcon,
     HelpIcon,
     LoaderIcon,
     MenuIcon,
@@ -290,6 +367,13 @@ export default {
         MainList.classList.add('hidden')
         el.currentTarget.classList.add('hidden')
       }
+    },
+    backup () {
+      triggerFileDownload(getBackupFile(getBackupData(this.$store)))
+    },
+    async restore () {
+      const backupFile = await askForBackupFile()
+      await restoreBackup(backupFile, this.$store)
     }
   }
 }
