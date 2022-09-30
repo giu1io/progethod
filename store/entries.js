@@ -42,6 +42,9 @@ export const mutations = {
   update (state, { data, id }) {
     state.entries.find(p => p.id === id).data = resetEntryDurations(data)
   },
+  updateLocation (state, { location, id }) {
+    state.entries.find(p => p.id === id).data.location = location
+  },
   adjust (state, { adjustment, id }) {
     const entry = state.entries.find(p => p.id === id)
     entry.data.decimal_duration = (entry.data.decimal_duration * 10 + adjustment * 10) / 10

@@ -13,8 +13,8 @@ export function prepareForSubmission (dayEntries, userProjects, linkedProjects, 
           hours: Object.keys(project).map(areaId => ({
             area_id: areaId === 'null' ? null : parseInt(areaId),
             types: {
-              internal: null,
-              remote: project[areaId].decimal_duration,
+              internal: project[areaId].decimal_duration.internal || null,
+              remote: project[areaId].decimal_duration.remote || null,
               travel: null,
               overtime: null,
               night_shift: null
@@ -57,16 +57,31 @@ function mergeEntries (entries, userProjects, linkedProjects) {
 
       if (!project[linkedAreaId]) {
         project[linkedAreaId] = {
-          decimal_duration: 0,
+          decimal_duration: {
+            internal: 0,
+            remote: 0
+          },
           notes: []
         }
       }
 
       const area = project[linkedAreaId]
 
-      area.decimal_duration = ((area.decimal_duration * 10) + (data.decimal_duration * 10)) / 10
+      switch (data.location) {
+        case 'office':
+          area.decimal_duration.internal = decimalAdd(area.decimal_duration.internal, data.decimal_duration)
+          break
+        case 'home':
+        default:
+          area.decimal_duration.remote = decimalAdd(area.decimal_duration.remote, data.decimal_duration)
+      }
+
       area.notes.push(`- ${data.notes || '%'} *${minutesToHHmm(data.duration)}* #${id}`)
     })
 
   return projects
+}
+
+function decimalAdd (n1, n2) {
+  return ((n1 * 10) + (n2 * 10)) / 10
 }

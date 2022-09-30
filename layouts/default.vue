@@ -76,9 +76,9 @@
                   stroke-width="1.5"
                 />
               </div>
-              <div aria-haspopup="true" class="cursor-pointer w-full flex items-center justify-end relative" @click="dropdownHandler($event)">
+              <div aria-haspopup="true" class="w-full flex items-center justify-end relative" @click="dropdownHandler($event)">
                 <ul class="p-2 w-40 border-r bg-white absolute rounded z-40 left-0 shadow mt-64 hidden">
-                  <li class="cursor-pointer text-gray-600 text-sm leading-3 tracking-normal py-2 hover:text-indigo-700 focus:text-indigo-700 focus:outline-none">
+                  <li class="text-gray-200 text-sm leading-3 tracking-normal py-2 focus:outline-none">
                     <div class="flex items-center">
                       <user-icon
                         class="icon icon-tabler icon-tabler-user"
@@ -94,7 +94,7 @@
                       <span class="ml-2"> My Profile </span>
                     </div>
                   </li>
-                  <li class="cursor-pointer text-gray-600 text-sm leading-3 tracking-normal mt-2 py-2 hover:text-indigo-700 focus:text-indigo-700 focus:outline-none flex items-center">
+                  <li class="text-gray-200 text-sm leading-3 tracking-normal mt-2 py-2 focus:outline-none flex items-center">
                     <help-icon
                       class="icon icon-tabler icon-tabler-help"
                       width="20"
@@ -108,7 +108,7 @@
                     />
                     <span class="ml-2">Help Center</span>
                   </li>
-                  <li class="cursor-pointer text-gray-600 text-sm leading-3 tracking-normal mt-2 py-2 hover:text-indigo-700 flex items-center focus:text-indigo-700 focus:outline-none">
+                  <li class="text-gray-200 text-sm leading-3 tracking-normal mt-2 py-2 flex items-center focus:outline-none">
                     <settings-icon
                       class="icon icon-tabler icon-tabler-settings"
                       width="20"
@@ -157,8 +157,8 @@
                     <span class="ml-2">Restore</span>
                   </li>
                 </ul>
-                <img class="rounded h-10 w-10 object-cover" :src="userInfo.pic || profilePhoto" alt="logo">
-                <p class="text-gray-800 text-sm ml-2">
+                <img class="rounded h-10 w-10 object-cover cursor-pointer" :src="userInfo.pic || profilePhoto" alt="logo">
+                <p class="text-gray-800 text-sm ml-2 cursor-pointer">
                   {{ `${userInfo.name} ${userInfo.surname}` }}
                 </p>
               </div>
@@ -208,7 +208,7 @@
                 </div>
               </div>
             </li>
-            <li class="ml-2 cursor-pointer text-gray-600 text-base leading-3 tracking-normal py-2 hover:text-indigo-700 focus:text-indigo-700 focus:outline-none">
+            <li class="ml-2 text-gray-200 text-base leading-3 tracking-normal py-2 focus:outline-none">
               <div class="flex items-center">
                 <user-icon
                   class="icon icon-tabler icon-tabler-user"

@@ -9,11 +9,13 @@
   "default_notes": "Nota Predefinita",
   "drag_this_bookmarklet": "Trascina questa bookmarklet",
   "duration": "Durata",
+  "home": "Casa",
   "linked_area": "Area Progetto",
   "linked_project": "Progetto Collegato",
   "login_instructions": "Come fare il login",
   "my_week": "La Mia Settimana",
   "notes": "Note",
+  "office": "Ufficio",
   "please_wait_sending": "Attendere mentre i dati vengono inviati...",
   "project": "Progetto",
   "project_information": "Informazioni Progetto",
@@ -28,5 +30,7 @@
   "session_expired": "Sessione Scaduta. Usa la bookmarklet per effetturare di nuovo il login.",
   "submit_timesheet": "Invia Timesheet",
   "submit_timesheet_warning": "Quest'operazione è irreversibile e qualsiasi correzione dovrà essere fatta dall'interfaccia ufficiale",
-  "warning": "Attenzione"
+  "timesheet": "Timesheet",
+  "warning": "Attenzione",
+  "work_location": "Da dove hai lavorato?"
 }

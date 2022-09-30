@@ -1,9 +1,10 @@
 <template>
   <div>
-    <div class="flex justify-between">
+    <div class="flex justify-between items-center my-2">
       <h2 class="capitalize text-xl font-bold leading-tight text-gray-800">
         {{ $dateFns.format(day, 'EEEE do') }}
       </h2>
+      <location-input v-model="location" @input="handleLocationChange" />
       <div class="text-xl font-bold">
         I: {{ printableDuration.hours }}h {{ printableDuration.minutes }}m
       </div>
@@ -29,6 +30,7 @@
       <div />
       <div />
       <div />
+      <div />
       <template v-for="entry in entries">
         <time-entry-item
           :key="`entry_${entry.id}`"
@@ -36,9 +38,9 @@
           @input="handleUpdateEvent(entry.id, $event)"
           @userSubmit="handleSubmit"
         />
-        <a
+        <button
           :key="`trash_${entry.id}`"
-          class="ml-2 mr-2 text-red-500 p-2 border-transparent border bg-white hover:bg-gray-300 cursor-pointer rounded focus:outline-none"
+          class="ml-2 mr-2 hover:text-red-500 focus:text-red-500 p-2 border-transparent border focus:bg-gray-100 dark:focus:bg-gray-800 hover:bg-gray-100 dark:hover:bg-gray-800 cursor-pointer rounded focus:outline-none"
           @click="removeEntry(entry.id)"
         >
           <trash-icon
@@ -51,7 +53,7 @@
             stroke-linecap="round"
             stroke-linejoin="round"
           />
-        </a>
+        </button>
       </template>
     </div>
     <div
@@ -95,7 +97,8 @@ export default {
     }
   },
   data: () => ({
-    adjustmentWentWrong: false
+    adjustmentWentWrong: false,
+    location: 'home'
   }),
   computed: {
     dayId () {
@@ -120,9 +123,18 @@ export default {
       return getPrintableDuration(this.totalDecimalDuration * 60)
     }
   },
+  mounted () {
+    this.location = this.entries.reduce((acc, e) => {
+      if (e.data.location && acc !== e.data.location) {
+        acc = e.data.location
+      }
+
+      return acc
+    }, this.location)
+  },
   methods: {
     addEntry () {
-      this.addEntryForDay({ day: this.dayId, data: {} })
+      this.addEntryForDay({ day: this.dayId, data: { location: this.location } })
     },
     removeEntry (id) {
       this.removeEntry(id)
@@ -175,12 +187,18 @@ export default {
         this.adjustmentWentWrong = false
       }
     },
+    handleLocationChange (location) {
+      this.entries
+        .filter(e => e.data.location !== location)
+        .forEach(({ id }) => this.updateLocationEntry({ id, location }))
+    },
     ...mapActions({
       addEntryForDay: 'entries/add'
     }),
     ...mapMutations({
       removeEntry: 'entries/remove',
       updateEntry: 'entries/update',
+      updateLocationEntry: 'entries/updateLocation',
       adjustEntry: 'entries/adjust',
       resetEntryAdjustment: 'entries/resetAdjustment'
     })
@@ -191,7 +209,7 @@ export default {
 <style lang="postcss">
   .entries-table {
     display: grid;
-    grid-template-columns: [warn] 2rem [project] 14rem [duration] 4rem [notes] auto [decimal] 2rem [adjustment] 1.5rem [delete] 3rem;
+    grid-template-columns: [warn] 2rem [project] 14rem [duration] 4rem [notes] auto [decimal] 2rem [adjustment] 1.5rem [location] 5rem [delete] 3rem;
     grid-template-rows: auto;
     place-items: center;
     grid-gap: 0.5rem 0.5rem;
