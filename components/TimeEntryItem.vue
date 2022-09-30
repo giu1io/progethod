@@ -55,6 +55,9 @@
     <div class="flex justify-center items-center" :title="$t('requires_adjustment')">
       <adjustments-horizontal-icon v-if="value.requires_adjustment" class="text-gray-300" />
     </div>
+    <div class="flex justify-center items-center" :title="$t('work_location')">
+      <location-input v-model="location" @input="hasUpdated" />
+    </div>
   </div>
 </template>
 
@@ -63,6 +66,7 @@ import { mapActions, mapGetters } from 'vuex'
 import VoerroTagsInput from '@voerro/vue-tagsinput'
 import { AlertTriangleIcon, ExternalLinkIcon, AdjustmentsHorizontalIcon } from 'vue-tabler-icons'
 import DurationInput from './DurationInput'
+import LocationInput from './LocationInput'
 
 export default {
   components: {
@@ -70,7 +74,8 @@ export default {
     TagsInput: VoerroTagsInput,
     AlertTriangleIcon,
     ExternalLinkIcon,
-    AdjustmentsHorizontalIcon
+    AdjustmentsHorizontalIcon,
+    LocationInput
   },
   props: {
     value: {
@@ -82,7 +87,8 @@ export default {
     return {
       duration: 0,
       selectedTags: [],
-      notes: ''
+      notes: '',
+      location: 'home'
     }
   },
   computed: {
@@ -99,10 +105,12 @@ export default {
   watch: {
     value: {
       immediate: true,
+      deep: true,
       handler (newData, oldData) {
         this.selectedTags = newData.project ? [this.projects.find(p => p.id === newData.project.id)] : []
         this.duration = newData.duration
         this.notes = newData.notes
+        this.location = newData.location || 'home'
       }
     }
   },
@@ -140,7 +148,8 @@ export default {
       this.$emit('input', {
         project: this.selectedTags[0],
         duration: this.duration,
-        notes: this.notes
+        notes: this.notes,
+        location: this.location
       })
       return true
     },
@@ -151,6 +160,10 @@ export default {
       }
 
       if (this.value.notes !== this.notes) {
+        return true
+      }
+
+      if (this.value.location !== this.location) {
         return true
       }
 
