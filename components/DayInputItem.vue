@@ -123,6 +123,15 @@ export default {
       return getPrintableDuration(this.totalDecimalDuration * 60)
     }
   },
+  mounted () {
+    this.location = this.entries.reduce((acc, e) => {
+      if (e.data.location && acc !== e.data.location) {
+        acc = e.data.location
+      }
+
+      return acc
+    }, this.location)
+  },
   methods: {
     addEntry () {
       this.addEntryForDay({ day: this.dayId, data: { location: this.location } })
