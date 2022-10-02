@@ -373,7 +373,9 @@ export default {
     },
     async restore () {
       const backupFile = await askForBackupFile()
-      await restoreBackup(backupFile, this.$store)
+      if (backupFile) {
+        await restoreBackup(backupFile, this.$store)
+      }
     }
   }
 }
