@@ -72,7 +72,12 @@ export default {
   build: {
     transpile: [
       'yocto-queue'
-    ]
+    ],
+    postcss: {
+      plugins: {
+        'postcss-nested': {}
+      }
+    }
   },
 
   i18n: {
