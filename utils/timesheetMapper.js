@@ -6,6 +6,9 @@ export function prepareForSubmission (dayEntries, userProjects, linkedProjects, 
     .map(({ day, projects }) => {
       return Object.keys(projects).map((projectId) => {
         const project = projects[projectId]
+        const internalIds = Object.values(project)
+          .map(area => area.internal_ids)
+          .reduce((acc, ids) => acc.concat(ids), [])
         return {
           project_id: parseInt(projectId),
           employee_id: employeeId,
@@ -21,7 +24,8 @@ export function prepareForSubmission (dayEntries, userProjects, linkedProjects, 
             },
             // eslint-disable-next-line quotes
             notes: project[areaId].notes.join("\n")
-          }))
+          })),
+          internalIds
         }
       })
     })
@@ -61,7 +65,8 @@ function mergeEntries (entries, userProjects, linkedProjects) {
             internal: 0,
             remote: 0
           },
-          notes: []
+          notes: [],
+          internal_ids: []
         }
       }
 
@@ -77,6 +82,7 @@ function mergeEntries (entries, userProjects, linkedProjects) {
       }
 
       area.notes.push(`- ${data.notes || '%'} *${minutesToHHmm(data.duration)}* #${id}`)
+      area.internal_ids.push(id)
     })
 
   return projects
@@ -84,4 +90,44 @@ function mergeEntries (entries, userProjects, linkedProjects) {
 
 function decimalAdd (n1, n2) {
   return ((n1 * 10) + (n2 * 10)) / 10
+}
+
+export function prepareForCleanup (projects, employeeId) {
+  const getCleanArea = (areaId) => {
+    return {
+      area_id: areaId,
+      types: {
+        internal: null,
+        remote: null,
+        travel: null,
+        overtime: null,
+        night_shift: null
+      }
+    }
+  }
+
+  // find all the stuff that needs to be deleted
+  return projects
+    .map((p) => {
+      const hours = []
+
+      p.areas.forEach((a) => {
+        if (a.notes) {
+          hours.push(getCleanArea(a.id))
+          return
+        }
+
+        if (Object.values(a.hours).some(v => v !== null)) {
+          hours.push(getCleanArea(a.id))
+        }
+      })
+
+      return {
+        project_id: p.id,
+        date: p.date,
+        employee_id: employeeId,
+        hours
+      }
+    })
+    .filter(p => p.hours.length > 0)
 }

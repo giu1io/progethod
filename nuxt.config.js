@@ -72,7 +72,12 @@ export default {
   build: {
     transpile: [
       'yocto-queue'
-    ]
+    ],
+    extend (config, { isClient, loaders: { vue } }) {
+      if (isClient) {
+        vue.transformAssetUrls.video = ['src', 'poster']
+      }
+    }
   },
 
   i18n: {
@@ -107,6 +112,14 @@ export default {
           'bg-yellow-200',
           'text-yellow-500'
         ]
+      },
+      variants: {
+        extend: {
+          cursor: ['disabled'],
+          pointerEvents: ['disabled'],
+          backgroundColor: ['disabled'],
+          color: ['disabled']
+        }
       }
     }
   },

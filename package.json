@@ -40,7 +40,7 @@
     "eslint-plugin-nuxt": "^3.1.0",
     "eslint-plugin-vue": "^8.2.0",
     "postcss": "^8.4.14",
-    "wrangler": "^2.0.15"
+    "wrangler": "2.0.15"
   },
   "volta": {
     "node": "16.14.2"

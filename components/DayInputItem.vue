@@ -5,11 +5,28 @@
         {{ $dateFns.format(day, 'EEEE do') }}
       </h2>
       <location-input v-model="location" @input="handleLocationChange" />
-      <div class="text-xl font-bold">
+      <div class="text-xl font-bold text-gray-500">
         I: {{ printableDuration.hours }}h {{ printableDuration.minutes }}m
       </div>
       <div class="text-xl font-bold">
         W: {{ printableDecimalDuration.hours }}h {{ printableDecimalDuration.minutes }}m
+      </div>
+      <div>
+        <button
+          class="ml-2 mr-1 p-2 text-white focus:outline-none border border-transparent focus:border-gray-800 focus:shadow-outline-gray bg-indigo-700 hover:bg-indigo-600 rounded transition duration-150 ease-in-out disabled:cursor-default disabled:bg-gray-500"
+          :disabled="disableSubmission"
+          :title="$t('submit_daily_timesheet')"
+          @click="submitDay"
+        >
+          <send-icon width="20" height="20" />
+        </button>
+        <button
+          class="ml-1 mr-2 p-2 border-transparent border focus:bg-yellow-400 hover:bg-yellow-400 dark:focus:bg-gray-800 bg-white dark:hover:bg-gray-800 cursor-pointer rounded focus:outline-none transition duration-150 ease-in-out"
+          :title="$t('reset_day')"
+          @click="nukeDay"
+        >
+          <radioactive-icon width="20" height="20" />
+        </button>
       </div>
     </div>
     <div>
@@ -35,12 +52,15 @@
         <time-entry-item
           :key="`entry_${entry.id}`"
           :value="entry.data"
+          :disabled="entry.synced"
           @input="handleUpdateEvent(entry.id, $event)"
           @userSubmit="handleSubmit"
         />
         <button
           :key="`trash_${entry.id}`"
-          class="ml-2 mr-2 hover:text-red-500 focus:text-red-500 p-2 border-transparent border focus:bg-gray-100 dark:focus:bg-gray-800 hover:bg-gray-100 dark:hover:bg-gray-800 cursor-pointer rounded focus:outline-none"
+          class="ml-2 mr-2  focus:text-red-500 p-2 border-transparent border focus:bg-gray-100 dark:focus:bg-gray-800 dark:hover:bg-gray-800 rounded focus:outline-none"
+          :class="{ 'text-gray-300 cursor-default': entry.synced, 'hover:text-red-500 hover:bg-gray-100': !entry.synced }"
+          :disabled="entry.synced"
           @click="removeEntry(entry.id)"
         >
           <trash-icon
@@ -71,15 +91,18 @@
         stroke-linejoin="round"
       />
     </div>
+    <nuke-timesheet-modal v-model="showNukeModal" :day-entries="entries" :day="dayId" />
+    <submit-timesheet-modal v-model="showSubmitModal" :timesheet-data="timesheetData" />
   </div>
 </template>
 
 <script>
-import { TrashIcon, PlusIcon } from 'vue-tabler-icons'
+import { TrashIcon, PlusIcon, RadioactiveIcon, SendIcon } from 'vue-tabler-icons'
 import { mapActions, mapMutations } from 'vuex'
 import TimeEntryItem from '~/components/TimeEntryItem'
 import Alert from '~/components/Alert'
 import { getPrintableDuration } from '~/utils/duration'
+import { prepareForSubmission } from '~/utils/timesheetMapper'
 
 const dayDuration = 60 * 8
 
@@ -88,7 +111,9 @@ export default {
     TimeEntryItem,
     TrashIcon,
     PlusIcon,
-    Alert
+    Alert,
+    RadioactiveIcon,
+    SendIcon
   },
   props: {
     day: {
@@ -98,7 +123,10 @@ export default {
   },
   data: () => ({
     adjustmentWentWrong: false,
-    location: 'home'
+    location: 'home',
+    showNukeModal: false,
+    showSubmitModal: false,
+    timesheetData: []
   }),
   computed: {
     dayId () {
@@ -106,6 +134,9 @@ export default {
     },
     entries () {
       return this.$store.getters['entries/entries'].filter(e => e.day === this.dayId)
+    },
+    disableSubmission () {
+      return this.entries.every(e => e.synced)
     },
     totalDuration () {
       return this.entries.reduce((sum, e) => sum + (e.data.duration || 0), 0)
@@ -189,8 +220,29 @@ export default {
     },
     handleLocationChange (location) {
       this.entries
-        .filter(e => e.data.location !== location)
+        .filter(e => e.data.location !== location && !e.synced)
         .forEach(({ id }) => this.updateLocationEntry({ id, location }))
+    },
+    nukeDay () {
+      this.showNukeModal = true
+    },
+    submitDay () {
+      const dayEntries = [{
+        day: this.dayId,
+        entries: this.entries
+      }]
+
+      const userProjects = this.$store.getters['projects/projects']
+      const linkedProjects = this.$store.getters['apiData/projects']
+      const employeeId = this.$store.getters['user/info'].employee_id
+
+      try {
+        this.timesheetData = prepareForSubmission(dayEntries, userProjects, linkedProjects, employeeId)
+        this.showSubmitModal = true
+      } catch (error) {
+        console.error(error)
+        alert(this.$t(error.message))
+      }
     },
     ...mapActions({
       addEntryForDay: 'entries/add'

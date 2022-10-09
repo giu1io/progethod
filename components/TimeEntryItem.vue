@@ -23,6 +23,7 @@
         :limit="1"
         :hide-input-on-limit="true"
         :placeholder="$t('select_project')"
+        :disabled="disabled"
         @tag-added="tagAdded"
         @tag-removed="tagRemoved"
       />
@@ -31,6 +32,7 @@
       <duration-input
         ref="duration"
         v-model="duration"
+        :disabled="disabled"
         @input="hasUpdated"
         @userSubmit="handleSubmit"
       />
@@ -39,8 +41,10 @@
       <input
         ref="notes"
         v-model="notes"
-        class="text-gray-600 dark:text-gray-400 focus:outline-none focus:border focus:border-indigo-700 dark:focus:border-indigo-700 dark:border-gray-700 dark:bg-gray-800 bg-white font-normal w-full h-10 flex items-center pl-3 text-sm border-gray-300 rounded border shadow"
+        class="dark:text-gray-400 focus:outline-none focus:border focus:border-indigo-700 dark:focus:border-indigo-700 dark:border-gray-700 dark:bg-gray-800 bg-white font-normal w-full h-10 flex items-center pl-3 text-sm border-gray-300 rounded border shadow"
+        :class="{ 'text-gray-300': disabled, 'text-gray-600': !disabled }"
         placeholder="Notes"
+        :disabled="disabled"
         @input="hasUpdated"
         @keyup.enter="handleSubmit"
       >
@@ -56,7 +60,7 @@
       <adjustments-horizontal-icon v-if="value.requires_adjustment" class="text-gray-300" />
     </div>
     <div class="flex justify-center items-center" :title="$t('work_location')">
-      <location-input v-model="location" @input="hasUpdated" />
+      <location-input v-model="location" :disabled="disabled" @input="hasUpdated" />
     </div>
   </div>
 </template>
@@ -81,6 +85,10 @@ export default {
     value: {
       type: Object,
       default: () => ({})
+    },
+    disabled: {
+      type: Boolean,
+      default: false
     }
   },
   data () {

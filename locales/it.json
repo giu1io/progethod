@@ -1,5 +1,6 @@
 {
   "about_to_submit_timesheet": "Stai per inviare il tuo Timesheet",
+  "about_to_nuke_timesheet": "Stai per cancellare il tuo Timesheet",
   "error": "Errore",
   "errors": {
     "error_during_adjustment": "Si è verificato un prolema nella conversione. Fai uno screenshot di questo giorno e segnala il problema.",
@@ -14,6 +15,7 @@
   "linked_project": "Progetto Collegato",
   "login_instructions": "Come fare il login",
   "my_week": "La Mia Settimana",
+  "nuke_timesheet_warning": "Quest'operazione è irreversibile. Tutti i dati verranno cancellati dall'interfaccia ufficiale per il giorno selezionato. Potrai poi re-inviare i dati che hai inserito su Progethod.",
   "notes": "Note",
   "office": "Ufficio",
   "please_wait_sending": "Attendere mentre i dati vengono inviati...",
@@ -24,12 +26,14 @@
   "require_notes": "Note Obbligatorie",
   "require_notes_description": "Il pm richiede di compilare le note per questo progetto",
   "requires_adjustment": "Questa durata non è un multiplo di 6 e verrà arrotondata",
+  "reset_day": "Ripristina Giorno",
   "save": "Salva",
   "select_project": "Scegli Progetto",
   "sent": "Inviato",
   "session_expired": "Sessione Scaduta. Usa la bookmarklet per effetturare di nuovo il login.",
-  "submit_timesheet": "Invia Timesheet",
-  "submit_timesheet_warning": "Quest'operazione è irreversibile e qualsiasi correzione dovrà essere fatta dall'interfaccia ufficiale",
+  "submit_timesheet_warning": "Quest'operazione sovrascriverà i dati ufficiali per i progetti selezionati. In caso ci si trovi in una situazione incinsistente è possibile cancellare i dati ufficiali (di un singolo giorno) e re-inviarli da Progethod usando il tasto radiattivo.",
+  "submit_daily_timesheet": "Invia Timesheet Giornaliero",
+  "submit_weekly_timesheet": "Invia Timesheet Settimanale",
   "timesheet": "Timesheet",
   "warning": "Attenzione",
   "work_location": "Da dove hai lavorato?"

@@ -72,7 +72,7 @@
           class="transition duration-150 ease-in-out hover:bg-indigo-600 focus:outline-none border bg-indigo-700 rounded text-white px-8 py-2 text-sm"
           @click="submit()"
         >
-          {{ $t('submit_timesheet') }}
+          {{ $t('submit_weekly_timesheet') }}
         </button>
       </div>
     </div>

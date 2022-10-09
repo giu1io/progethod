@@ -36,7 +36,8 @@ export const mutations = {
     state.entries.push({
       day,
       id,
-      data: resetEntryDurations(data)
+      data: resetEntryDurations(data),
+      synced: false
     })
   },
   update (state, { data, id }) {
@@ -58,5 +59,8 @@ export const mutations = {
   },
   restoreBackup (state, entries) {
     state.entries = entries
+  },
+  setSyncState (state, { id, synced }) {
+    state.entries.find(p => p.id === id).synced = synced
   }
 }

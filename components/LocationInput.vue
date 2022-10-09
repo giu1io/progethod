@@ -2,10 +2,13 @@
   <div class="flex justify-center ml-2 mr-2">
     <div id="filters" class="bg-transparent border-2 border-gray-200 dark:border-gray-800 rounded flex items-center">
       <button
-        class="p-2 rounded border-transparent border focus:outline-none focus:text-indigo-700 dark:focus:text-indigo-700 hover:text-indigo-700 dark:hover:text-indigo-700 text-gray-800 dark:text-gray-50 flex justify-center items-center focus:bg-gray-100 dark:focus:bg-gray-800 hover:bg-gray-100 dark:hover:bg-gray-800"
+        class="p-2 rounded border-transparent border focus:outline-none focus:text-indigo-700 dark:focus:text-indigo-700 dark:text-gray-50 flex justify-center items-center focus:bg-gray-100 dark:focus:bg-gray-800 disabled:cursor-default"
         :class="{
-          'text-indigo-700 bg-white cursor-default': value === 'home'
+          'text-indigo-700 bg-white cursor-default': value === 'home' && !disabled,
+          'text-white bg-gray-300 cursor-default': value === 'home' && disabled,
+          'hover:text-indigo-700 dark:hover:text-indigo-700 hover:bg-gray-100 dark:hover:bg-gray-800': !disabled
         }"
+        :disabled="disabled"
         :title="$t('home')"
         @click="select('home')"
       >
@@ -18,10 +21,14 @@
         />
       </button>
       <button
-        class="p-2 rounded border-transparent border focus:outline-none focus:text-indigo-700 dark:focus:text-indigo-700 hover:text-indigo-700 dark:hover:text-indigo-700 text-gray-800 dark:text-gray-50 flex justify-center items-center focus:bg-gray-100 dark:focus:bg-gray-800 hover:bg-gray-100 dark:hover:bg-gray-800"
+        class="p-2 rounded border-transparent border focus:outline-none focus:text-indigo-700 dark:focus:text-indigo-700 dark:text-gray-50 flex justify-center items-center focus:bg-gray-100 dark:focus:bg-gray-800 disabled:cursor-default"
         :class="{
-          'text-indigo-700 bg-white cursor-default': value === 'office'
+          'text-indigo-700 bg-white cursor-default': value === 'office' && !disabled,
+          'text-white bg-gray-300 cursor-default': value === 'office' && disabled,
+          'text-gray-300 cursor-default': value !== 'office' && disabled,
+          'hover:text-indigo-700 dark:hover:text-indigo-700 hover:bg-gray-100 dark:hover:bg-gray-800': !disabled
         }"
+        :disabled="disabled"
         :title="$t('office')"
         @click="select('office')"
       >
@@ -52,6 +59,10 @@ export default {
     value: {
       type: String,
       default: 'home'
+    },
+    disabled: {
+      type: Boolean,
+      default: false
     }
   },
   methods: {

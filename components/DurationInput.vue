@@ -3,10 +3,12 @@
     <input
       ref="input"
       v-model="inputString"
-      class="text-gray-600 dark:text-gray-400 focus:outline-none focus:border focus:border-indigo-700 dark:focus:border-indigo-700 dark:border-gray-700 dark:bg-gray-800 bg-white font-normal w-16 h-10 flex items-center pl-3 text-sm border-gray-300 rounded border shadow"
+      class="dark:text-gray-400 focus:outline-none focus:border focus:border-indigo-700 dark:focus:border-indigo-700 dark:border-gray-700 dark:bg-gray-800 bg-white font-normal w-16 h-10 flex items-center pl-3 text-sm border-gray-300 rounded border shadow"
+      :class="{ 'text-gray-300': disabled, 'text-gray-600': !disabled }"
       type="text"
       maxlength="5"
       placeholder="00:00"
+      :disabled="disabled"
       @input="handleUserInput"
       @blur="onBlur"
       @keyup.enter="enterKey"
@@ -22,6 +24,10 @@ export default {
     value: {
       type: Number,
       default: 0
+    },
+    disabled: {
+      type: Boolean,
+      default: false
     }
   },
   data () {
