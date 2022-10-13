@@ -2,7 +2,7 @@
 <template>
   <div
     id="modal"
-    class="py-12 dark:bg-black bg-gray-700 transition-opacity z-10 absolute top-0 right-0 bottom-0 left-0"
+    class="py-12 dark:bg-black bg-gray-700 transition-opacity z-10 fixed top-0 right-0 bottom-0 left-0"
     :class="{'opacity-0': !value, 'pointer-events-none': !value, 'opacity-100': value}"
   >
     <div role="alert" class="container mx-auto w-11/12 md:w-2/3 max-w-xl flex justify-center">
