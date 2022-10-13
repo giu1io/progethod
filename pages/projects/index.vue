@@ -273,8 +273,8 @@ export default {
         return {
           name: p.name,
           id: p.id,
-          linkedProject: linkedProject.name,
-          linkedArea: linkedArea.name
+          linkedProject: linkedProject?.name || '',
+          linkedArea: linkedArea?.name || ''
         }
       })
     }
