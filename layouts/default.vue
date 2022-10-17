@@ -137,7 +137,7 @@
                       stroke-linecap="round"
                       stroke-linejoin="round"
                     />
-                    <span class="ml-2">Backup</span>
+                    <span class="ml-2">{{ $t('backup') }}</span>
                   </li>
                   <li
                     class="cursor-pointer text-gray-600 text-sm leading-3 tracking-normal mt-2 py-2 hover:text-indigo-700 flex items-center focus:text-indigo-700 focus:outline-none"
@@ -154,7 +154,24 @@
                       stroke-linecap="round"
                       stroke-linejoin="round"
                     />
-                    <span class="ml-2">Restore</span>
+                    <span class="ml-2">{{ $t('restore') }}</span>
+                  </li>
+                  <li
+                    class="cursor-pointer text-gray-600 text-sm leading-3 tracking-normal mt-2 py-2 hover:text-indigo-700 flex items-center focus:text-indigo-700 focus:outline-none"
+                    @click="updateProjects()"
+                  >
+                    <refresh-icon
+                      class="icon icon-tabler icon-tabler-settings"
+                      width="20"
+                      height="20"
+                      viewBox="0 0 24 24"
+                      stroke-width="1.5"
+                      stroke="currentColor"
+                      fill="none"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    />
+                    <span class="ml-2">{{ $t('update_projects') }}</span>
                   </li>
                 </ul>
                 <img class="rounded h-10 w-10 object-cover cursor-pointer" :src="userInfo.pic || profilePhoto" alt="logo">
@@ -240,7 +257,7 @@
                   stroke-linecap="round"
                   stroke-linejoin="round"
                 />
-                <span class="leading-6 ml-2">Backup</span>
+                <span class="leading-6 ml-2">{{ $t('backup') }}</span>
               </div>
             </li>
             <li
@@ -259,7 +276,26 @@
                   stroke-linecap="round"
                   stroke-linejoin="round"
                 />
-                <span class="leading-6 ml-2">Restore</span>
+                <span class="leading-6 ml-2">{{ $t('restore') }}</span>
+              </div>
+            </li>
+            <li
+              class="ml-2 cursor-pointer text-gray-600 text-base leading-3 tracking-normal py-2 hover:text-indigo-700 focus:text-indigo-700 focus:outline-none"
+              @click="updateProjects()"
+            >
+              <div class="flex items-center">
+                <refresh-icon
+                  class="icon icon-tabler icon-tabler-user"
+                  width="24"
+                  height="24"
+                  viewBox="0 0 24 24"
+                  stroke-width="1.5"
+                  stroke="currentColor"
+                  fill="none"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+                <span class="leading-6 ml-2">{{ $t('update_projects') }}</span>
               </div>
             </li>
           </ul>
@@ -313,13 +349,15 @@ import {
   DatabaseExportIcon,
   DatabaseImportIcon,
   HelpIcon,
-  LoaderIcon,
   MenuIcon,
+  LoaderIcon,
+  RefreshIcon,
   SearchIcon,
   SettingsIcon,
   UserIcon
 } from 'vue-tabler-icons'
 import { getBackupData, getBackupFile, triggerFileDownload, askForBackupFile, restoreBackup } from '~/utils/backupRestore'
+import { updateApiData } from '~/utils/updateApiData'
 
 export default {
   components: {
@@ -331,6 +369,7 @@ export default {
     HelpIcon,
     LoaderIcon,
     MenuIcon,
+    RefreshIcon,
     SearchIcon,
     SettingsIcon,
     UserIcon
@@ -376,6 +415,9 @@ export default {
       if (backupFile) {
         await restoreBackup(backupFile, this.$store)
       }
+    },
+    async updateProjects () {
+      await updateApiData(this.$axios, this.$store)
     }
   }
 }
