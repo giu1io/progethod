@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="flex justify-between items-center my-2">
+    <div class="flex justify-between items-center">
       <h2 class="capitalize text-xl font-bold leading-tight text-gray-800">
         {{ $dateFns.format(day, 'EEEE do') }}
       </h2>
@@ -54,7 +54,7 @@
           :value="entry.data"
           :disabled="entry.synced"
           @input="handleUpdateEvent(entry.id, $event)"
-          @userSubmit="handleSubmit"
+          @userSubmit="handleSubmit(entry.id)"
         />
         <button
           :key="`trash_${entry.id}`"
@@ -76,20 +76,25 @@
         </button>
       </template>
     </div>
-    <div
-      class="text-white ml-4 cursor-pointer focus:outline-none border border-transparent focus:border-gray-800 focus:shadow-outline-gray bg-indigo-700 transition duration-150 ease-in-out hover:bg-indigo-600 w-8 h-8 rounded flex items-center justify-center"
-      @click="addEntry"
-    >
-      <plus-icon
-        width="28"
-        height="28"
-        viewBox="0 0 24 24"
-        stroke-width="1.5"
-        stroke="currentColor"
-        fill="none"
-        stroke-linecap="round"
-        stroke-linejoin="round"
-      />
+    <div class="ml-10">
+      <button
+        class="mr-2 p-2 text-white focus:outline-none border border-transparent focus:border-gray-800 focus:shadow-outline-gray bg-indigo-700 hover:bg-indigo-600 rounded transition duration-150 ease-in-out disabled:cursor-default disabled:bg-gray-500"
+        @click="addEntry"
+      >
+        <plus-icon
+          width="20"
+          height="20"
+        />
+      </button>
+      <button
+        class="mr-2 p-2 text-white focus:outline-none border border-transparent focus:border-gray-800 focus:shadow-outline-gray bg-indigo-700 hover:bg-indigo-600 rounded transition duration-150 ease-in-out disabled:cursor-default disabled:bg-gray-500"
+        @click="fetchGCal"
+      >
+        <calendar-time-icon
+          width="20"
+          height="20"
+        />
+      </button>
     </div>
     <nuke-timesheet-modal v-model="showNukeModal" :day-entries="entries" :day="dayId" />
     <submit-timesheet-modal v-model="showSubmitModal" :timesheet-data="timesheetData" />
@@ -97,12 +102,13 @@
 </template>
 
 <script>
-import { TrashIcon, PlusIcon, RadioactiveIcon, SendIcon } from 'vue-tabler-icons'
+import { TrashIcon, PlusIcon, RadioactiveIcon, SendIcon, CalendarTimeIcon } from 'vue-tabler-icons'
 import { mapActions, mapMutations } from 'vuex'
 import TimeEntryItem from '~/components/TimeEntryItem'
 import Alert from '~/components/Alert'
 import { getPrintableDuration } from '~/utils/duration'
 import { prepareForSubmission } from '~/utils/timesheetMapper'
+import { getEvents, mapEventsToTimesheetEntries } from '~/utils/gCal'
 
 const dayDuration = 60 * 8
 
@@ -113,7 +119,8 @@ export default {
     PlusIcon,
     Alert,
     RadioactiveIcon,
-    SendIcon
+    SendIcon,
+    CalendarTimeIcon
   },
   props: {
     day: {
@@ -177,8 +184,10 @@ export default {
 
       this.adjustDecimals()
     },
-    handleSubmit () {
-      this.addEntry()
+    handleSubmit (entryId) {
+      if (this.entries.findIndex(e => e.id === entryId) === this.entries.length - 1) {
+        this.addEntry()
+      }
     },
     adjustDecimals () {
       const totalDuration = this.totalDuration
@@ -242,6 +251,18 @@ export default {
       } catch (error) {
         console.error(error)
         alert(this.$t(error.message))
+      }
+    },
+    async fetchGCal () {
+      const events = await getEvents(this.day)
+
+      const entriesFromCalendar = mapEventsToTimesheetEntries(events, this.entries)
+      entriesFromCalendar.forEach(entry =>
+        this.addEntryForDay({ day: this.dayId, data: { location: this.location, ...entry } })
+      )
+
+      if (entriesFromCalendar.length) {
+        this.adjustDecimals()
       }
     },
     ...mapActions({

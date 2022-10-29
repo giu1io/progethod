@@ -429,4 +429,8 @@ export default {
       @apply border-indigo-700;
       @apply text-indigo-700;
   }
+
+  body {
+    @apply bg-gray-200;
+  }
 </style>

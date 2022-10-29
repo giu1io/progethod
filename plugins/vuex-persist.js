@@ -12,7 +12,12 @@ export default ({ store }) => {
           entries: entries.entries
             .filter(e => differenceInDays(new Date(), parse(e.day, 'yyyy-MM-dd', new Date())) < 30)
         },
-        user,
+        user: {
+          authToken: user.authToken,
+          isTokenExpired: user.isTokenExpired,
+          info: user.info,
+          hasAuthorizedGCal: user.hasAuthorizedGCal
+        },
         apiData: {
           projects: apiData.projects,
           lastUpdatedAt: apiData.lastUpdatedAt

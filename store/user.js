@@ -1,3 +1,5 @@
+import { isAfter, addSeconds, parseISO } from 'date-fns'
+
 export const state = () => ({
   authToken: null,
   isTokenExpired: false,
@@ -8,7 +10,9 @@ export const state = () => ({
     name: '',
     surname: '',
     pic: null
-  }
+  },
+  hasAuthorizedGCal: false,
+  googleTokenExpiration: null
 })
 
 export const getters = {
@@ -20,6 +24,12 @@ export const getters = {
   },
   isTokenExpired (state) {
     return state.isTokenExpired
+  },
+  isGoogleTokenValid (state) {
+    return state.googleTokenExpiration && isAfter(parseISO(state.googleTokenExpiration), new Date())
+  },
+  isGCalSetup (state) {
+    return state.hasAuthorizedGCal
   },
   info (state) {
     return state.info
@@ -36,5 +46,9 @@ export const mutations = {
   },
   invalidateToken (state) {
     state.isTokenExpired = true
+  },
+  authorizedGoogleToken (state, expiresIn) {
+    state.hasAuthorizedGCal = true
+    state.googleTokenExpiration = (addSeconds(new Date(), expiresIn)).toISOString()
   }
 }

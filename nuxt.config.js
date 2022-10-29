@@ -16,6 +16,18 @@ export default {
     ],
     link: [
       { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }
+    ],
+    script: [
+      {
+        src: 'https://apis.google.com/js/api.js',
+        async: true,
+        defer: true
+      },
+      {
+        src: 'https://accounts.google.com/gsi/client',
+        async: true,
+        defer: true
+      }
     ]
   },
 
@@ -128,6 +140,8 @@ export default {
     feUrl: `${process.env.CF_PAGES_URL}/`,
     feHost: (new URL(process.env.CF_PAGES_URL)).host,
     loginHost: process.env.LOGIN_HOST,
-    instructionVideoUrl: process.env.INSTRUCTION_VIDEO_URL
+    instructionVideoUrl: process.env.INSTRUCTION_VIDEO_URL,
+    gCalApiKey: process.env.GCAL_API_KEY,
+    gCalClientId: process.env.GCAL_CLIENT_ID
   }
 }
