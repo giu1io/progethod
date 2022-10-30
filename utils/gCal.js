@@ -29,7 +29,7 @@ function connectCalendar () {
 
 export async function getEvents (day) {
   // ensure apiClient is loaded
-  await gApiLoadPromise()
+  await loadGApiClient()
 
   if (!window.$nuxt.$store.getters['user/isGoogleTokenValid']) {
     // ensure calendar is authorized and connected
@@ -58,7 +58,7 @@ export async function getEvents (day) {
 // load event on gApi is called only once
 let loadedPromise = null
 
-function gApiLoadPromise () {
+function loadGApiClient () {
   if (!loadedPromise) {
     loadedPromise = new Promise((resolve) => {
       window.gapi.load('client', async () => {
@@ -74,12 +74,32 @@ function gApiLoadPromise () {
   return loadedPromise
 }
 
-export function mapEventsToTimesheetEntries (events, currentEntries) {
+function matchEventToProject (description, projects) {
+  if (!description) {
+    return null
+  }
+
+  const matches = Array.from(description.matchAll(/\[progethod:([0-9]{1,}):((generic)|([0-9]{1,}))\]/g))
+
+  if (matches.length < 1) {
+    return null
+  }
+
+  // eslint-disable-next-line no-unused-vars
+  const [fullTag, projectIdString, areaIdString] = matches[0]
+
+  const projectId = parseInt(projectIdString)
+  const areaId = areaIdString === 'generic' ? null : parseInt(areaIdString)
+
+  return projects.find(p => p.linkedProjectId === projectId && p.linkedAreaId === areaId)
+}
+
+export function mapEventsToTimesheetEntries (events, currentEntries, projects) {
   return events
     .filter(event => !currentEntries.find(e => e.data.gCalId === event.id))
     .map(event => ({
       duration: differenceInMinutes(parseISO(event.end.dateTime), parseISO(event.start.dateTime)),
-      project: null,
+      project: matchEventToProject(event.description, projects),
       notes: event.summary,
       gCalId: event.id
     }))

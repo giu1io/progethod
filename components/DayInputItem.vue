@@ -254,9 +254,10 @@ export default {
       }
     },
     async fetchGCal () {
+      const userProjects = this.$store.getters['projects/projects']
       const events = await getEvents(this.day)
 
-      const entriesFromCalendar = mapEventsToTimesheetEntries(events, this.entries)
+      const entriesFromCalendar = mapEventsToTimesheetEntries(events, this.entries, userProjects)
       entriesFromCalendar.forEach(entry =>
         this.addEntryForDay({ day: this.dayId, data: { location: this.location, ...entry } })
       )

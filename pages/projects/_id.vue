@@ -63,6 +63,21 @@
                       placeholder=""
                     >
                   </div>
+                  <div class="flex flex-col mb-6">
+                    <label for="defaultNotes" class="pb-2 text-sm font-bold text-gray-800 dark:text-gray-100">{{ $t('magic_tag') }}</label>
+                    <p class="text-sm text-gray-500 dark:text-gray-400 mb-2">
+                      {{ $t('what_is_a_magic_tag') }}
+                    </p>
+                    <input
+                      id="defaultNotes"
+                      :value="magicTag"
+                      type="text"
+                      name="defaultNotes"
+                      class="border border-gray-300 dark:border-gray-700 pl-3 py-3 shadow-sm bg-transparent rounded text-sm focus:outline-none focus:border-indigo-700 placeholder-gray-500 text-gray-500 dark:text-gray-400"
+                      placeholder=""
+                      readonly
+                    >
+                  </div>
                   <div class="xl:w-1/4 lg:w-1/2 md:w-1/2 flex flex-col mb-6" />
                 </form>
               </div>
@@ -119,6 +134,11 @@ export default {
     }
   },
   computed: {
+    magicTag () {
+      return !this.linkedProject
+        ? this.$t('select_project')
+        : `[progethod:${this.linkedProject.id}:${this.linkedArea ? this.linkedArea.id : 'generic'}]`
+    },
     ...mapGetters({
       projects: 'apiData/projects'
     })
