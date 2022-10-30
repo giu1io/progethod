@@ -28,6 +28,7 @@
   "require_notes_description": "Il pm richiede di compilare le note per questo progetto",
   "require_notes": "Note Obbligatorie",
   "requires_adjustment": "Questa durata non è un multiplo di 6 e verrà arrotondata",
+  "require_confirm_on_submit": "Chiedi conferma prima di inviare",
   "reset_day": "Ripristina Giorno",
   "restore": "Ripristina",
   "save": "Salva",

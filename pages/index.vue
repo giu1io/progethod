@@ -65,15 +65,21 @@
         </ul>
       </div>
       <div class="mt-6 lg:mt-0">
-        <!-- <button class="mx-2 my-2 bg-white transition duration-150 ease-in-out focus:outline-none hover:bg-gray-100 rounded text-indigo-700 px-6 py-2 text-sm">
-          Back
-        </button> -->
-        <button
-          class="transition duration-150 ease-in-out hover:bg-indigo-600 focus:outline-none border bg-indigo-700 rounded text-white px-8 py-2 text-sm"
-          @click="submit()"
-        >
-          {{ $t('submit_weekly_timesheet') }}
-        </button>
+        <div class="flex justify-between items-center">
+          <div class="">
+            <label for="toggleConfirmRequired" class="text-sm font-bold text-gray-800 dark:text-gray-100 mr-5">{{ $t('require_confirm_on_submit') }}</label>
+          </div>
+          <div class="cursor-pointer rounded-full bg-gray-200 relative shadow-sm">
+            <input
+              id="toggleConfirmRequired"
+              :checked="isConfirmOnSubmitRequired"
+              type="checkbox"
+              class="focus:outline-none checkbox w-6 h-6 rounded-full bg-indigo-700 dark:bg-gray-400 absolute shadow-sm appearance-none cursor-pointer border border-transparent top-0 bottom-0 m-auto"
+              @input="setRequireSubmitConfirmation($event.target.checked)"
+            >
+            <label for="toggleConfirmRequired" class="toggle-label block w-12 h-4 overflow-hidden rounded-full bg-gray-300 dark:bg-gray-800 cursor-pointer" />
+          </div>
+        </div>
       </div>
     </div>
     <!-- Page title ends -->
@@ -85,22 +91,18 @@
         <day-input-item :day="day" />
       </div>
     </div>
-    <submit-timesheet-modal v-model="modal" :timesheet-data="timesheetData" />
   </div>
 </template>
 
 <script>
 import { PaperclipIcon } from 'vue-tabler-icons'
-import { mapGetters } from 'vuex'
+import { mapGetters, mapMutations } from 'vuex'
 import DayInputItem from '~/components/DayInputItem'
-import SubmitTimesheetModal from '~/components/SubmitTimesheetModal'
-import { prepareForSubmission } from '~/utils/timesheetMapper'
 
 export default {
   components: {
     PaperclipIcon,
-    DayInputItem,
-    SubmitTimesheetModal
+    DayInputItem
   },
   middleware: 'auth',
   data ({ $dateFns }) {
@@ -114,39 +116,19 @@ export default {
     return {
       days,
       xmlns: 'http://www.w3.org/2000/svg',
-      modal: false,
-      timesheetData: null
+      modal: false
     }
   },
   computed: {
     ...mapGetters({
-      isTokenExpired: 'user/isTokenExpired'
+      isTokenExpired: 'user/isTokenExpired',
+      isConfirmOnSubmitRequired: 'preferences/isConfirmOnSubmitRequired'
     })
   },
   methods: {
-    submit () {
-      const dayEntries = this.days.map((day) => {
-        const dayStr = this.$dateFns.format(day, 'yyyy-MM-dd')
-        return {
-          day: dayStr,
-          entries: this.$store.getters['entries/entries']
-            .filter(e => e.day === dayStr)
-        }
-      })
-
-      const userProjects = this.$store.getters['projects/projects']
-      const linkedProjects = this.$store.getters['apiData/projects']
-      const employeeId = this.$store.getters['user/info'].employee_id
-
-      // TODO error handling if linkedProject/linkedArea not found
-      try {
-        this.timesheetData = prepareForSubmission(dayEntries, userProjects, linkedProjects, employeeId)
-        this.modal = true
-      } catch (error) {
-        console.error(error)
-        alert(this.$t(error.message))
-      }
-    }
+    ...mapMutations({
+      setRequireSubmitConfirmation: 'preferences/setRequireSubmitConfirmation'
+    })
   }
 }
 </script>

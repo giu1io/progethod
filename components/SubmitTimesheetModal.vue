@@ -13,19 +13,13 @@
       </div>
     </div>
     <alert v-if="isExpired" class="w-full" level="error" :message="$t('session_expired')" />
-    <div v-if="!isExpired" class="flex items-center justify-center mt-4 sm:mt-6 w-full">
+    <div v-if="!isExpired && isConfirmOnSubmitRequired" class="flex items-center justify-center mt-4 sm:mt-6 w-full">
       <button
-        v-if="!isSubmitting"
-        class="px-6 py-2 bg-indigo-700 dark:bg-indigo-600 focus:outline-none hover:bg-opacity-80 mx-2 my-2 rounded"
+        :disabled="isSubmitting"
+        class="px-6 py-2 bg-indigo-700 disabled:bg-gray-500 text-white disabled:text-gray-600 disabled:cursor-default dark:bg-indigo-600 focus:outline-none hover:bg-opacity-80 mx-2 my-2 rounded"
         @click="submit()"
       >
-        <send-icon width="20" height="20" class="text-white" />
-      </button>
-      <button
-        v-if="isSubmitting"
-        class="mx-2 my-2 bg-gray-100 rounded border border-gray-300 text-gray-600 px-6 py-2 text-xs cursor-default"
-      >
-        <send-icon width="20" height="20" class="text-gray-600" />
+        <send-icon width="20" height="20" />
       </button>
     </div>
   </modal>
@@ -67,8 +61,18 @@ export default {
       return Math.floor((this.sentData * 100 / total) || 0)
     },
     ...mapGetters({
-      isExpired: 'user/isTokenExpired'
+      isExpired: 'user/isTokenExpired',
+      isConfirmOnSubmitRequired: 'preferences/isConfirmOnSubmitRequired'
     })
+  },
+  watch: {
+    value: {
+      handler (newVal, oldVal) {
+        if (newVal !== oldVal && newVal === true && !this.isExpired && !this.isConfirmOnSubmitRequired) {
+          this.$nextTick(() => this.submit())
+        }
+      }
+    }
   },
   methods: {
     emitChange (value) {
