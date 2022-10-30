@@ -96,7 +96,10 @@ function matchEventToProject (description, projects) {
 
 export function mapEventsToTimesheetEntries (events, currentEntries, projects) {
   return events
+    // remove events already imported
     .filter(event => !currentEntries.find(e => e.data.gCalId === event.id))
+    // remove all day events / out of office / focus time
+    .filter(event => event.start.dateTime && event.eventType === 'default')
     .map(event => ({
       duration: differenceInMinutes(parseISO(event.end.dateTime), parseISO(event.start.dateTime)),
       project: matchEventToProject(event.description, projects),
