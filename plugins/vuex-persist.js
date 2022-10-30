@@ -5,7 +5,7 @@ import { differenceInDays, parse } from 'date-fns'
 export default ({ store }) => {
   new VuexPersistence({
     storage: window.localStorage,
-    reducer ({ projects, entries, user, apiData }) {
+    reducer ({ projects, entries, user, apiData, preferences }) {
       return {
         projects,
         entries: {
@@ -16,7 +16,8 @@ export default ({ store }) => {
         apiData: {
           projects: apiData.projects,
           lastUpdatedAt: apiData.lastUpdatedAt
-        }
+        },
+        preferences
       }
     }
   }).plugin(store)
