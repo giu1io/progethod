@@ -68,15 +68,26 @@
                     <p class="text-sm text-gray-500 dark:text-gray-400 mb-2">
                       {{ $t('what_is_a_magic_tag') }}
                     </p>
-                    <input
-                      id="defaultNotes"
-                      :value="magicTag"
-                      type="text"
-                      name="defaultNotes"
-                      class="border border-gray-300 dark:border-gray-700 pl-3 py-3 shadow-sm bg-transparent rounded text-sm focus:outline-none focus:border-indigo-700 placeholder-gray-500 text-gray-500 dark:text-gray-400"
-                      placeholder=""
-                      readonly
-                    >
+                    <div class="flex flex-row">
+                      <input
+                        id="defaultNotes"
+                        :value="magicTag"
+                        type="text"
+                        name="defaultNotes"
+                        class="border border-gray-300 dark:border-gray-700 pl-3 py-3 shadow-sm bg-transparent rounded text-sm focus:outline-none focus:border-indigo-700 placeholder-gray-500 text-gray-500 dark:text-gray-400"
+                        placeholder=""
+                        readonly
+                      >
+                      <button
+                        class="ml-2 mr-1 p-2 text-white focus:outline-none border border-transparent focus:border-gray-800 focus:shadow-outline-gray bg-indigo-700 hover:bg-indigo-600 rounded transition duration-150 ease-in-out disabled:cursor-default disabled:bg-gray-500"
+                        :disabled="disableCopy"
+                        :title="$t('copy')"
+                        type="button"
+                        @click="copyMagicTag"
+                      >
+                        <clipboard-icon width="20" height="20" />
+                      </button>
+                    </div>
                   </div>
                   <div class="xl:w-1/4 lg:w-1/2 md:w-1/2 flex flex-col mb-6" />
                 </form>
@@ -96,7 +107,8 @@
 
 <script>
 import {
-  InfoCircleIcon
+  InfoCircleIcon,
+  ClipboardIcon
 } from 'vue-tabler-icons'
 import vSelect from 'vue-select'
 import 'vue-select/dist/vue-select.css'
@@ -104,6 +116,7 @@ import { mapGetters, mapMutations } from 'vuex'
 
 export default {
   components: {
+    ClipboardIcon,
     InfoCircleIcon,
     vSelect
   },
@@ -134,6 +147,9 @@ export default {
     }
   },
   computed: {
+    disableCopy () {
+      return !this.linkedProject
+    },
     magicTag () {
       return !this.linkedProject
         ? this.$t('select_project')
@@ -157,6 +173,16 @@ export default {
     },
     selectedProjectChanged () {
       this.linkedArea = null
+    },
+    async copyMagicTag () {
+      try {
+        const result = await navigator.permissions.query({ name: 'clipboard-write' })
+        if (result.state === 'granted' || result.state === 'prompt') {
+          navigator.clipboard.writeText(this.magicTag)
+        }
+      } catch (e) {
+        console.error(e)
+      }
     },
     ...mapMutations({
       updateProject: 'projects/update'
