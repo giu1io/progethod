@@ -100,6 +100,8 @@ export function mapEventsToTimesheetEntries (events, currentEntries, projects) {
     .filter(event => !currentEntries.find(e => e.data.gCalId === event.id))
     // remove all day events / out of office / focus time
     .filter(event => event.start.dateTime && event.eventType === 'default')
+    // remove events that have the progethod ignore tag
+    .filter(event => !event.description || !event.description.match(/\[progethod:ignore\]/g))
     .map(event => ({
       duration: differenceInMinutes(parseISO(event.end.dateTime), parseISO(event.start.dateTime)),
       project: matchEventToProject(event.description, projects),
