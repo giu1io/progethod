@@ -192,11 +192,5 @@ export default {
 </script>
 
 <style lang="postcss">
-.checkbox:checked {
-    /* Apply class right-0*/
-    right: 0;
-}
-.checkbox:checked + .toggle-label {
-    @apply bg-pink-400;
-}
+
 </style>

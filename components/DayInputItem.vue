@@ -21,7 +21,7 @@
           <send-icon width="20" height="20" />
         </button>
         <button
-          class="ml-1 mr-2 p-2 border-transparent border focus:bg-yellow-400 hover:bg-yellow-400 dark:focus:bg-gray-800 bg-white dark:hover:bg-gray-800 cursor-pointer rounded focus:outline-none transition duration-150 ease-in-out"
+          class="ml-1 p-2 border-transparent border focus:bg-yellow-400 hover:bg-yellow-400 dark:focus:bg-gray-800 bg-white dark:hover:bg-gray-800 cursor-pointer rounded focus:outline-none transition duration-150 ease-in-out"
           :title="$t('reset_day')"
           @click="nukeDay"
         >
