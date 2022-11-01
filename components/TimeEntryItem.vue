@@ -154,6 +154,8 @@ export default {
       }
 
       this.$emit('input', {
+        // keep other value that may be in the payload
+        ...this.value,
         project: this.selectedTags[0],
         duration: this.duration,
         notes: this.notes,
