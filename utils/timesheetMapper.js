@@ -1,4 +1,5 @@
 import { minutesToHHmm } from './duration'
+import { TranslatableError } from './localizableErrors'
 
 export function prepareForSubmission (dayEntries, userProjects, linkedProjects, employeeId) {
   return dayEntries
@@ -42,13 +43,13 @@ function mergeEntries (entries, userProjects, linkedProjects) {
     .forEach(({ id, data }) => {
       const { linkedProjectId, linkedAreaId = 'null', name } = userProjects.find(p => p.id === data.project?.id) || {}
       if (!linkedProjectId) {
-        throw new Error('errors.linked_project_not_found')
+        throw new TranslatableError('errors.linked_project_not_found', { project: name })
       }
 
       const linkedProject = linkedProjects.find(p => p.id === linkedProjectId)
 
       if (!linkedProject) {
-        throw new Error('errors.linked_project_not_found')
+        throw new TranslatableError('errors.linked_project_not_found', { project: name })
       }
 
       if (linkedProject.isAutomatic) {
@@ -56,7 +57,7 @@ function mergeEntries (entries, userProjects, linkedProjects) {
       }
 
       if (!linkedProject.areas.find(a => a.id === linkedAreaId)) {
-        throw new Error('errors.linked_area_not_found')
+        throw new TranslatableError('errors.linked_area_not_found', { project: name })
       }
 
       if (!projects[linkedProjectId]) {

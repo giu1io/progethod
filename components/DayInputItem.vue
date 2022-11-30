@@ -109,6 +109,7 @@ import Alert from '~/components/Alert'
 import { getPrintableDuration } from '~/utils/duration'
 import { prepareForSubmission } from '~/utils/timesheetMapper'
 import { getEvents, mapEventsToTimesheetEntries } from '~/utils/gCal'
+import { TranslatableError } from '~/utils/localizableErrors'
 
 const dayDuration = 60 * 8
 
@@ -250,7 +251,14 @@ export default {
         this.showSubmitModal = true
       } catch (error) {
         console.error(error)
-        alert(this.$t(error.message))
+
+        let message = error.message
+
+        if (error instanceof TranslatableError) {
+          message = this.$t(error.message, error.errorData)
+        }
+
+        alert(message)
       }
     },
     async fetchGCal () {
