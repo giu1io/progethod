@@ -9,6 +9,7 @@ export function prepareForSubmission (dayEntries, userProjects, linkedProjects, 
         const internalIds = Object.values(project)
           .map(area => area.internal_ids)
           .reduce((acc, ids) => acc.concat(ids), [])
+
         return {
           project_id: parseInt(projectId),
           employee_id: employeeId,
@@ -25,7 +26,8 @@ export function prepareForSubmission (dayEntries, userProjects, linkedProjects, 
             // eslint-disable-next-line quotes
             notes: project[areaId].notes.join("\n")
           })),
-          internalIds
+          internalIds,
+          debugProjectName: Object.values(project).pop().debugProjectName
         }
       })
     })
@@ -38,7 +40,7 @@ function mergeEntries (entries, userProjects, linkedProjects) {
   entries
     .filter(({ data }) => data.duration > 0)
     .forEach(({ id, data }) => {
-      const { linkedProjectId, linkedAreaId = 'null' } = userProjects.find(p => p.id === data.project?.id) || {}
+      const { linkedProjectId, linkedAreaId = 'null', name } = userProjects.find(p => p.id === data.project?.id) || {}
       if (!linkedProjectId) {
         throw new Error('errors.linked_project_not_found')
       }
@@ -51,6 +53,10 @@ function mergeEntries (entries, userProjects, linkedProjects) {
 
       if (linkedProject.isAutomatic) {
         return
+      }
+
+      if (!linkedProject.areas.find(a => a.id === linkedAreaId)) {
+        throw new Error('errors.linked_area_not_found')
       }
 
       if (!projects[linkedProjectId]) {
@@ -66,7 +72,8 @@ function mergeEntries (entries, userProjects, linkedProjects) {
             remote: 0
           },
           notes: [],
-          internal_ids: []
+          internal_ids: [],
+          debugProjectName: name
         }
       }
 

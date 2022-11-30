@@ -109,7 +109,7 @@ export default {
     const days = []
 
     for (let i = 0; i < 7; i++) {
-      // days.push($dateFns.addDays($dateFns.startOfWeek($dateFns.addDays(new Date(), 7), { weekStartsOn: 1 }), i))
+      // days.push($dateFns.addDays($dateFns.startOfWeek($dateFns.subDays(new Date(), 28), { weekStartsOn: 1 }), i))
       days.push($dateFns.addDays($dateFns.startOfWeek(new Date(), { weekStartsOn: 1 }), i))
     }
 

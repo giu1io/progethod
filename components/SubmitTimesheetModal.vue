@@ -13,7 +13,8 @@
       </div>
     </div>
     <alert v-if="isExpired" class="w-full" level="error" :message="$t('session_expired')" />
-    <div v-if="!isExpired && isConfirmOnSubmitRequired" class="flex items-center justify-center mt-4 sm:mt-6 w-full">
+    <alert v-if="isError" class="w-full" level="error" :message="errorMessage" />
+    <div v-if="!isExpired && !isError && isConfirmOnSubmitRequired" class="flex items-center justify-center mt-4 sm:mt-6 w-full">
       <button
         :disabled="isSubmitting"
         class="px-6 py-2 bg-indigo-700 disabled:bg-gray-500 text-white disabled:text-gray-600 disabled:cursor-default dark:bg-indigo-600 focus:outline-none hover:bg-opacity-80 mx-2 my-2 rounded"
@@ -49,6 +50,8 @@ export default {
   data () {
     return {
       isSubmitting: false,
+      isError: false,
+      errorMessage: '',
       sentData: 0
     }
   },
@@ -87,8 +90,32 @@ export default {
         this.dataToSend.map(
           entry => limit(
             async () => {
-              const { internalIds, ...requestData } = entry
-              await this.$axios.post('timetracking', requestData)
+              const { internalIds, debugProjectName, ...requestData } = entry
+
+              let data = {}
+
+              try {
+                const response = await this.$axios.post('timetracking', requestData)
+                data = response.data
+              } catch (err) {
+                console.error(err)
+                data = {
+                  code: err.response?.status || 500,
+                  message: err.message
+                }
+              }
+
+              if (data.code !== 200) {
+                this.isSubmitting = false
+                this.isError = true
+                this.errorMessage = this.$t('errors.unexpected_status_code', {
+                  code: data.code || '',
+                  message: data.message || '',
+                  project: debugProjectName
+                })
+                throw new Error(this.errorMessage)
+              }
+
               // await new Promise(resolve => setTimeout(() => resolve(requestData), 2000))
               this.sentData++
               internalIds.forEach(id => this.syncEntry({ id, synced: true }))

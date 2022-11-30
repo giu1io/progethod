@@ -13,7 +13,9 @@ export async function updateApiData ($axios, store) {
       id: project.id,
       name: project.name,
       isAutomatic: project.project_type.is_timesheet_automatic,
-      areas: areas.map(({ id, name }) => ({ id, name }))
+      areas: areas
+        .filter(({ on }) => on)
+        .map(({ id, name }) => ({ id, name }))
     }))
 
     store.commit('apiData/replace', projects)

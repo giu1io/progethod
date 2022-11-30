@@ -10,7 +10,9 @@
   "errors": {
     "error_during_adjustment": "Si è verificato un prolema nella conversione. Fai uno screenshot di questo giorno e segnala il problema.",
     "total_not_adjustable": "Il totale delle ore non è divisibile per 60",
-    "linked_project_not_found": "Progetto collegato non trovato. Una o più riga non è stata associata ad un progetto."
+    "linked_area_not_found": "Progetto collegata non trovata. Una o più riga non è stata associata ad un'area.",
+    "linked_project_not_found": "Progetto collegato non trovato. Una o più riga non è stata associata ad un progetto.",
+    "unexpected_status_code": "L'interfaccia ufficiale ha risposto con uno status code non previsto ({code}, {message}) sul progetto \"{project}\". Segnala il problema!"
   },
   "home": "Casa",
   "linked_area": "Area Progetto",
