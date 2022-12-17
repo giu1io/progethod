@@ -68,7 +68,7 @@
                     <p class="text-sm text-gray-500 dark:text-gray-400 mb-2">
                       {{ $t('what_is_a_magic_tag') }}
                     </p>
-                    <div class="flex flex-row">
+                    <div class="flex flex-row justify-items-center">
                       <input
                         id="defaultNotes"
                         :value="magicTag"
@@ -87,6 +87,9 @@
                       >
                         <clipboard-icon width="20" height="20" />
                       </button>
+                      <div class="text-sm font-bold dark:text-gray-400 ml-4">
+                        {{ $t('magic_tag_for_everybody') }}
+                      </div>
                     </div>
                   </div>
                   <div class="xl:w-1/4 lg:w-1/2 md:w-1/2 flex flex-col mb-6" />

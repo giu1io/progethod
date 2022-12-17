@@ -19,6 +19,7 @@
   "linked_project": "Progetto Collegato",
   "login_instructions": "Come fare il login",
   "magic_tag": "Magic Tag™️",
+  "magic_tag_for_everybody": "Il meeting è con più persone? Questo tag funziona per tutti! (se hanno creato un progetto sulla stessa commessa/area)",
   "my_week": "La Mia Settimana",
   "notes": "Note",
   "nuke_timesheet_warning": "Quest'operazione è irreversibile. Tutti i dati verranno cancellati dall'interfaccia ufficiale per il giorno selezionato. Potrai poi re-inviare i dati che hai inserito su Progethod.",
@@ -44,6 +45,6 @@
   "timesheet": "Timesheet",
   "update_projects": "Aggiorna Progetti",
   "warning": "Attenzione",
-  "what_is_a_magic_tag": "Inserisci questo Magic Tag™️ nella descrizione di un evento del calendario per associarlo in automatico a questo progetto quando viene importato. Massimo costo/beneficio con eventi ricorrenti. Funziona per tutti i partecipanti del meeting se hanno già un progetto creato sulla stessa commessa/area.",
+  "what_is_a_magic_tag": "Inserisci questo Magic Tag™️ nella descrizione di un evento del calendario per associarlo in automatico a questo progetto quando viene importato. Massimo costo/beneficio con eventi ricorrenti.",
   "work_location": "Da dove hai lavorato?"
 }
