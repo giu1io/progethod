@@ -42,7 +42,20 @@
 import { mapMutations } from 'vuex'
 
 export default {
-  asyncData ({ env }) {
+  async asyncData ({ $axios, store, query, redirect, env }) {
+    if (query.token) {
+      const { data } = await $axios.$get('me', {
+        headers: {
+          'x-sf-sess-id': query.token
+        }
+      })
+
+      store.commit('user/setToken', query.token)
+      store.commit('user/updateInfo', data)
+
+      return redirect('/')
+    }
+
     return {
       instructionVideoUrl: env.instructionVideoUrl,
       loginHost: env.loginHost,
