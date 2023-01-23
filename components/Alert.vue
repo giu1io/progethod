@@ -9,9 +9,7 @@
           </p>
         </div>
         <div class="h-1 w-1 rounded-full mr-2 hidden xl:block" :class="`bg-${color}-500`" />
-        <p class="text-base" :class="`text-${color}-500`">
-          {{ message }}
-        </p>
+        <p class="text-base" :class="`text-${color}-500`" v-html="message" />
       </div>
     </div>
   </div>

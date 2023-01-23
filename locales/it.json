@@ -4,7 +4,6 @@
   "backup": "Backup",
   "copy": "Copia",
   "default_notes": "Nota Predefinita",
-  "drag_this_bookmarklet": "Trascina questa bookmarklet",
   "duration": "Durata",
   "error": "Errore",
   "errors": {
@@ -18,6 +17,14 @@
   "linked_area": "Area Progetto",
   "linked_project": "Progetto Collegato",
   "login_instructions": "Come fare il login",
+  "login_tutorial": {
+    "step_1": "1. Apri ",
+    "step_1_cta": "la UI ufficiale",
+    "step_2": "2. nella pagina, tasto destro -> Ispeziona",
+    "step_3": "3. Nella schermata che si apre scegli la scheda \"Application\"",
+    "step_4": "4. Nella sezione \"Storage\", apri \"Cookies\" e seleziona <span class=\"font-mono\">https://{loginHost}</span>",
+    "step_5": "5. Nella tabella a destra cerca il cookie chiamato <span class=\"font-mono\">SF6SESSID</span> e copia il valore nel form qui sotto."
+  },
   "magic_tag": "Magic Tag™️",
   "magic_tag_for_everybody": "Il meeting è con più persone? Questo tag funziona per tutti! (se hanno creato un progetto sulla stessa commessa/area)",
   "my_week": "La Mia Settimana",
@@ -38,7 +45,7 @@
   "save": "Salva",
   "select_project": "Scegli Progetto",
   "sent": "Inviato",
-  "session_expired": "Sessione Scaduta. Usa la bookmarklet per effetturare di nuovo il login.",
+  "session_expired": "Sessione Scaduta. Segui le istruzioni <a href=\"/login\" class=\"underline\">nella pagina di login</a>.",
   "submit_daily_timesheet": "Invia Timesheet Giornaliero",
   "submit_timesheet_warning": "Quest'operazione sovrascriverà i dati ufficiali per i progetti selezionati. In caso ci si trovi in una situazione incinsistente è possibile cancellare i dati ufficiali (di un singolo giorno) e re-inviarli da Progethod usando il tasto radiattivo.",
   "submit_weekly_timesheet": "Invia Timesheet Settimanale",
