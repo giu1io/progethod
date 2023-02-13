@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="pt-20">
     <!-- Page title starts -->
 
     <alert v-if="isTokenExpired" :message="$t('session_expired')" level="warning" />

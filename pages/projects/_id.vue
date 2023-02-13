@@ -1,5 +1,5 @@
 <template>
-  <div class="mx-auto container py-10">
+  <div class="mx-auto container py-10 pt-24">
     <div class="flex items-center justify-between w-full">
       <div class="flex flex-col lg:flex-row w-full items-start lg:items-center rounded bg-white shadow">
         <div class="w-full lg:w-2/3 h-64 dark:bg-gray-800">

@@ -1,5 +1,5 @@
 <template>
-  <div class="m-10">
+  <div class="m-10 pt-20">
     <ul>
       <li>
         {{ $t("login_tutorial.step_1") }}<a class="underline" target="_blank" :href="'https://' + loginHost">{{ $t("login_tutorial.step_1_cta") }}</a>
