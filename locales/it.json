@@ -18,12 +18,10 @@
   "linked_project": "Progetto Collegato",
   "login_instructions": "Come fare il login",
   "login_tutorial": {
-    "step_1": "1. Apri ",
-    "step_1_cta": "la UI ufficiale",
-    "step_2": "2. nella pagina, tasto destro -> Ispeziona",
-    "step_3": "3. Nella schermata che si apre scegli la scheda \"Application\"",
-    "step_4": "4. Nella sezione \"Storage\", apri \"Cookies\" e seleziona <span class=\"font-mono\">https://{loginHost}</span>",
-    "step_5": "5. Nella tabella a destra cerca il cookie chiamato <span class=\"font-mono\">SF6SESSID</span> e copia il valore nel form qui sotto."
+    "step_1": "1. Installa l'estensione per Chrome ",
+    "step_1_cta": "dallo store",
+    "step_2": "2. Clicca sull'icona con la P di Progethod in alto a destra (potrebbe essere nascosta sotto l'icona del puzzle)",
+    "step_3": "3. Magic ✨"
   },
   "magic_tag": "Magic Tag™️",
   "magic_tag_for_everybody": "Il meeting è con più persone? Questo tag funziona per tutti! (se hanno creato un progetto sulla stessa commessa/area)",

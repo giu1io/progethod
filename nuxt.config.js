@@ -141,6 +141,7 @@ export default {
     feUrl: `${process.env.CF_PAGES_URL}/`,
     feHost: (new URL(process.env.CF_PAGES_URL)).host,
     loginHost: process.env.LOGIN_HOST,
+    loginExtensionUrl: process.env.LOGIN_EXTENSION_URL,
     instructionVideoUrl: process.env.INSTRUCTION_VIDEO_URL,
     gCalApiKey: process.env.GCAL_API_KEY,
     gCalClientId: process.env.GCAL_CLIENT_ID
