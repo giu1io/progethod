@@ -150,7 +150,7 @@ export default {
       return this.entries.reduce((sum, e) => sum + (e.data.duration || 0), 0)
     },
     totalDecimalDuration () {
-      return this.entries.reduce((sum, e) => sum + (e.data.decimal_duration || 0), 0)
+      return this.entries.reduce((sum, e) => ((sum * 10) + (e.data.decimal_duration || 0) * 10) / 10, 0)
     },
     totalNotAdjustable () {
       return this.totalDuration >= dayDuration && this.totalDuration % 60
